@@ -28,7 +28,7 @@ async def on_message(message):
   global commandInProgress
   # generates a quiz for a user to guess when prompted by *quiz
   if message.content == '*quiz':
-    if (commandInProgress == False):
+    if commandInProgress == False:
       commandInProgress = True
       await quiz(message, client)
       commandInProgress = False
