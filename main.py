@@ -22,7 +22,7 @@ async def on_message(message):
 
   # generates a quiz for a user to guess when prompted by *quiz
   if message.content.startswith('*quiz'):
-    quiz(message, client)
+    await quiz(message, client)
 
   # generates a random sentence from animes.txt when prompted by *recommend
   if message.content.startswith('*recommend'):

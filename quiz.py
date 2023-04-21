@@ -3,7 +3,8 @@
 import asyncio
 from random import randrange
 
-def quiz(message, client):
+
+async def quiz(message, client):
   nextQuestion = True
   while nextQuestion:
     nextQuestion = False
@@ -31,7 +32,8 @@ def quiz(message, client):
           notCorrect = False
           nextQuestion = True
         elif response.content.lower() == answerList[randomQuestionNum]:
-          await message.channel.send('Correct!')
+          await response.add_reaction('\U00002705')
+          await message.channel.send(response.author.mention + ' got it correct!')
           notCorrect = False
       except asyncio.TimeoutError:
         await message.channel.send('You failed to answer in time!')
