@@ -64,10 +64,10 @@ async def on_message(message):
   goats.close()
 
 
-status = cycle(['with Python', 'JetHub'])
+status = cycle(['*recommend', '*quiz'])
 
 
-@tasks.loop(seconds=120)
+@tasks.loop(seconds=180)
 async def change_status():
   await client.change_presence(activity=discord.Game(next(status)))
 
