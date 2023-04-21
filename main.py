@@ -8,11 +8,11 @@ intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
 
+commandInProgress = False
 
 @client.event
 async def on_ready():
   print('Logged in as {0.user}'.format(client))
-
 
 @client.event
 async def on_message(message):
@@ -20,12 +20,18 @@ async def on_message(message):
   if message.author == client.user:
     return
 
+  global commandInProgress
   # generates a quiz for a user to guess when prompted by *quiz
-  if message.content.startswith('*quiz'):
-    await quiz(message, client)
+  if message.content == '*quiz':
+    if(commandInProgress == False):
+      commandInProgress = True
+      await quiz(message, client)
+      commandInProgress = False
+    else:
+      await message.channel.send('Quiz already in progress!')
 
   # generates a random sentence from animes.txt when prompted by *recommend
-  if message.content.startswith('*recommend'):
+  if message.content == '*recommend':
     animes = open("animes.txt", "r")
     animeList = animes.readlines()
     await message.channel.send(animeList[randrange(len(animeList))])

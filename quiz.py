@@ -3,8 +3,10 @@
 import asyncio
 from random import randrange
 
+playerScore = dict()
 
 async def quiz(message, client):
+  global playerScore
   nextQuestion = True
   while nextQuestion:
     nextQuestion = False
@@ -33,7 +35,11 @@ async def quiz(message, client):
           nextQuestion = True
         elif response.content.lower() == answerList[randomQuestionNum]:
           await response.add_reaction('\U00002705')
-          await message.channel.send(response.author.mention + ' got it correct!')
+          if response.author.id in playerScore:
+            playerScore[response.author.id] +=1
+          else:
+            playerScore[response.author.id] = 1
+          await message.channel.send(response.author.mention + ' got it correct! Your score is ' + str(playerScore[response.author.id]))
           notCorrect = False
       except asyncio.TimeoutError:
         await message.channel.send('You failed to answer in time!')
