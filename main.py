@@ -55,13 +55,23 @@ async def on_message(message):
     await message.channel.send(animeList[randrange(len(animeList))])
     animes.close()
 
-  # sends a goat emoji when a term in goats.txt is mentioned
+  # sends a goat emoji when a term/phrase in goats.txt is mentioned
   with open("goats.txt") as goats:
     goatList = goats.read().splitlines()
   words = message.content.split()
   for x in goatList:
-    for y in words:
-      if x == y.lower():
+    for i in range(len(words)):
+      currentLength = i
+      word = words[i]
+      while (len(x) != len(word)):
+        if len(x) < len(word):
+          break
+        elif len(x) > len(word):
+          if currentLength == len(words) - 1:
+            break
+          currentLength += 1
+          word = word + ' ' + words[currentLength]
+      if x == word.lower():
         await message.channel.send('\U0001F410')
         return
   goats.close()
