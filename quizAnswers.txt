@@ -9,3 +9,46 @@ gee-gee
 york
 thunder bay
 seinen
+josei
+shonen
+shojo
+harem
+reverse harem
+kodomo
+ecchi
+mecha
+isekai
+yaoi
+yuri
+calcium
+spirited away
+blinding lights
+mercury
+jupiter
+mercury
+pluto
+winston churchill
+botany
+marathon
+helsinki
+berlin
+tokyo
+ottawa
+london
+paris
+canberra
+wellington
+brussels
+oslo
+rome
+beijing
+bangkok
+brasilia
+mexico city
+warsaw
+budapest
+new delhi
+jakarta
+vienna
+madrid
+lemonade
