@@ -2,6 +2,8 @@ import os
 import discord
 from random import randrange
 from keep_alive import keep_alive
+from discord.ext import tasks
+from itertools import cycle
 from quiz import quiz
 
 intents = discord.Intents.default()
@@ -10,9 +12,12 @@ client = discord.Client(intents=intents)
 
 commandInProgress = False
 
+
 @client.event
 async def on_ready():
+  change_status.start()
   print('Logged in as {0.user}'.format(client))
+
 
 @client.event
 async def on_message(message):
@@ -23,7 +28,7 @@ async def on_message(message):
   global commandInProgress
   # generates a quiz for a user to guess when prompted by *quiz
   if message.content == '*quiz':
-    if(commandInProgress == False):
+    if (commandInProgress == False):
       commandInProgress = True
       await quiz(message, client)
       commandInProgress = False
@@ -57,6 +62,14 @@ async def on_message(message):
         await message.channel.send('\U0001F410')
         return
   goats.close()
+
+
+status = cycle(['with Python', 'JetHub'])
+
+
+@tasks.loop(seconds=120)
+async def change_status():
+  await client.change_presence(activity=discord.Game(next(status)))
 
 
 keep_alive()
