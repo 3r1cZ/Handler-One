@@ -1,8 +1,8 @@
 import os
 import discord
-import asyncio
 from random import randrange
 from keep_alive import keep_alive
+from quiz import quiz
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -22,41 +22,7 @@ async def on_message(message):
 
   # generates a quiz for a user to guess when prompted by *quiz
   if message.content.startswith('*quiz'):
-    nextQuestion = True
-    while nextQuestion:
-      nextQuestion = False
-      questions = open("quizQuestions.txt", "r")
-      questionList = questions.readlines()
-      with open("quizAnswers.txt") as answers:
-        answerList = answers.read().splitlines()
-      randomQuestionNum = randrange(len(questionList))
-      await message.channel.send(questionList[randomQuestionNum])
-
-      # checking conditions for a response
-      def check(response):
-        return response.channel == message.channel
-
-      # receiving user input
-      notCorrect = True
-      while (notCorrect):
-        try:
-          response = await client.wait_for("message", check=check, timeout=20)
-          if response.content.lower() == '*exit':
-            await message.channel.send('Exiting quiz.')
-            return
-          elif response.content.lower() == '*pass':
-            await message.channel.send('Question passed. Next Question:')
-            notCorrect = False
-            nextQuestion = True
-          elif response.content.lower() == answerList[randomQuestionNum]:
-            await message.channel.send('Correct!')
-            notCorrect = False
-        except asyncio.TimeoutError:
-          await message.channel.send('You failed to answer in time!')
-          notCorrect = False
-
-      questions.close()
-      answers.close()
+    quiz(message, client)
 
   # generates a random sentence from animes.txt when prompted by *recommend
   if message.content.startswith('*recommend'):
