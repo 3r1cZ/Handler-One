@@ -1,5 +1,6 @@
 import os
 import discord
+import re
 from random import randrange
 from keep_alive import keep_alive
 from discord.ext import tasks
@@ -25,6 +26,10 @@ async def on_message(message):
   if message.author == client.user:
     return
 
+  # sends a text file containing all functions for the user to use
+  if message.content == '*help':
+    await message.channel.send(file=discord.File('help.txt'))
+
   global commandInProgress
   # generates a quiz for a user to guess when prompted by *quiz
   if message.content == '*quiz':
@@ -41,6 +46,34 @@ async def on_message(message):
     animeList = animes.readlines()
     await message.channel.send(animeList[randrange(len(animeList))])
     animes.close()
+
+  # generates a random response to given keywords when prompted with *question
+  keywordsYN = [
+    'do', 'is', 'have', 'has', 'am', 'are', 'will', 'if', 'were', 'was',
+    'should', 'would'
+  ]
+  patternYN = re.compile('|'.join(r'\b{}\b'.format(word)
+                                  for word in keywordsYN))
+  keywordsPercent = ['how', '%', 'percent', 'chance', 'probability']
+  patternPercent = re.compile('|'.join(r'\b{}\b'.format(word)
+                                       for word in keywordsPercent))
+  if message.content.startswith('*question'):
+    if 'how many' in message.content:
+      num = randrange(10001)
+      await message.channel.send(num)
+    elif patternPercent.search(message.content) != None:
+      num = randrange(101)
+      await message.channel.send(str(num) + '%')
+    elif patternYN.search(message.content) != None:
+      answers = [
+        'Yes', 'No', 'Maybe', 'Definitely', 'Definitely not', 'Not sure',
+        'Up to you', 'Yeah', 'Nah', 'Yes LOL', 'No LOL'
+      ]
+      await message.channel.send(answers[randrange(len(answers))])
+    else:
+      emojis = open("emojis.txt", "r")
+      EmojiList = emojis.readlines()
+      await message.channel.send(EmojiList[randrange(len(EmojiList))])
 
   # sends a goat emoji when a term/phrase in goats.txt is mentioned
   with open("goats.txt") as goats:
@@ -64,7 +97,7 @@ async def on_message(message):
   goats.close()
 
 
-status = cycle(['*recommend', '*quiz'])
+status = cycle(['*help', '*quiz', '*question'])
 
 
 @tasks.loop(seconds=180)
