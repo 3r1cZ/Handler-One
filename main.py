@@ -50,7 +50,7 @@ async def on_message(message):
   # generates a random response to given keywords when prompted with *question
   keywordsYN = [
     'do', 'is', 'have', 'has', 'am', 'are', 'will', 'if', 'were', 'was',
-    'should', 'would'
+    'should', 'would', 'does'
   ]
   patternYN = re.compile('|'.join(r'\b{}\b'.format(word)
                                   for word in keywordsYN))
