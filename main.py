@@ -36,7 +36,9 @@ async def on_message(message):
   if message.content == '*quiz':
     if commandInProgress == False:
       commandInProgress = True
-      await message.channel.send('How many points would you like to play to?')
+      await message.channel.send(
+        'How many points would you like to play to? \nNote: you can use \*exit to end the quiz and \*pass to pass a question'
+      )
       try:
         response = await client.wait_for("message", timeout=20)
         if response.content.isdigit() and int(response.content) != 0:
