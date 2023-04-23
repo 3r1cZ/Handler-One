@@ -79,7 +79,7 @@ async def on_message(message):
   keywordsPercent = ['how much', 'percent', 'chance', 'probability']
   patternPercent = re.compile('|'.join(r'\b{}'.format(word)
                                        for word in keywordsPercent))
-  if message.content.startswith('**'):
+  if message.content.startswith('**') and message.author.id != 432610292342587392:
     if patternNum.search(message.content.lower()) != None:
       num = randrange(1001)
       await message.channel.send(num)
