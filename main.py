@@ -61,23 +61,27 @@ async def on_message(message):
     animes.close()
 
   # generates a random response to given keywords when prompted with *question
+  keywordsNum = ['how many', 'number of', 'number']
+  patternNum = re.compile('|'.join(r'\b{}'.format(word) for word in keywordsNum))
   keywordsYN = [
     'do', 'is', 'have', 'has', 'am', 'are', 'will', 'if', 'were', 'was',
-    'should', 'would', 'does'
+    'should', 'would', 'does', '=', 'equals', 'equal', '=='
   ]
-  patternYN = re.compile('|'.join(r'\b{}\b'.format(word)
-                                  for word in keywordsYN))
-  keywordsPercent = ['how', 'percent', 'chance', 'probability']
-  patternPercent = re.compile('|'.join(r'\b{}\b'.format(word)
+  keywordsYNSpecial = ['=', '==']
+  patternYN = re.compile('|'.join(r'\b{}'.format(word) for word in keywordsYN))
+  patternYNSpecial = re.compile('|'.join(word for word in keywordsYNSpecial))
+  
+  keywordsPercent = ['how much', 'percent', 'chance', 'probability']
+  patternPercent = re.compile('|'.join(r'\b{}'.format(word)
                                        for word in keywordsPercent))
-  if message.content.startswith('?'):
-    if 'how many' in message.content:
+  if message.content.startswith('**'):
+    if patternNum.search(message.content.lower()) != None:
       num = randrange(1001)
       await message.channel.send(num)
-    elif patternPercent.search(message.content) != None:
+    elif patternPercent.search(message.content.lower()) != None or re.search('%', message.content) != None:
       num = randrange(101)
       await message.channel.send(str(num) + '%')
-    elif patternYN.search(message.content) != None:
+    elif patternYN.search(message.content.lower()) != None or patternYNSpecial.search(message.content.lower()) != None:
       answers = [
         'Yes', 'No', 'Maybe', 'Definitely', 'Definitely not', 'Not sure',
         'Up to you', 'Yeah', 'Nah', 'Yes LOL', 'No LOL', 'Probably'
