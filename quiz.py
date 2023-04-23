@@ -16,21 +16,22 @@ async def points(message, client, num):
   global exit
   won = False
   winner = ''
-  while (exit == False):
-    while (won == False):
-      for x, y in playerScore.items():
-        if int(y) != int(num):
-          continue
-        else:
-          winner = x
-          won = True
-          break
-      if won == False:
-        print(exit)
-        await quiz(message, client)
-    await message.channel.send(f'<@{winner}> is the winner!')
-    exit = True
-    await reset()
+  while (won == False):
+    for x, y in playerScore.items():
+      if int(y) != int(num):
+        continue
+      else:
+        winner = x
+        won = True
+        break
+    if won == False and exit == False:
+      await quiz(message, client)
+    elif won == True:
+      await message.channel.send(f'<@{winner}> is the winner!')
+    else:
+      return
+  exit = True
+  await reset()
     
 
 
@@ -59,6 +60,7 @@ async def quiz(message, client):
         if response.content.lower() == '*exit':
           await message.channel.send('Exiting quiz.')
           exit = True
+          await reset()
           return
         elif response.content.lower() == '*pass':
           await message.channel.send('Question passed. Next Question:')
