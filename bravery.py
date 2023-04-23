@@ -213,6 +213,7 @@ async def bravery(message, client):
           while(num4 == num1 or num4 == num2 or num4 == num3):
             num4 = randrange(6,21)
           await message.channel.send('Order of Items: \n' + '1. ' + assassinList[randrange(1,4)] + '2. ' + bootList[randrange(len(bootList))] + '3. ' + assassinList[num1] + '4. ' + assassinList[num2] + '5. ' + assassinList[num3] + '6. ' + assassinList[num4])
+          break
         if item == 'mage':
           num1 = randrange(11,25)
           num2 = randrange(11,25)
@@ -225,6 +226,7 @@ async def bravery(message, client):
           while(num4 == num1 or num4 == num2 or num4 == num3):
             num4 = randrange(11,25)
           await message.channel.send('Order of Items: \n' + '1. ' + mageList[randrange(1,9)] + '2. ' + bootList[randrange(len(bootList))] + '3. ' + mageList[num1] + '4. ' + mageList[num2] + '5. ' + mageList[num3] + '6. ' + mageList[num4])
+          break
         if item == 'tank':
           num1 = randrange(9,27)
           num2 = randrange(9,27)
@@ -237,6 +239,7 @@ async def bravery(message, client):
           while(num4 == num1 or num4 == num2 or num4 == num3):
             num4 = randrange(9,27)
           await message.channel.send('Order of Items: \n' + '1. ' + tankList[randrange(1,7)] + '2. ' + bootList[randrange(len(bootList))] + '3. ' + tankList[num1] + '4. ' + tankList[num2] + '5. ' + tankList[num3] + '6. ' + tankList[num4])
+          break
         if item == 'support':
           num1 = randrange(8,18)
           num2 = randrange(8,18)
@@ -249,7 +252,15 @@ async def bravery(message, client):
           while(num4 == num1 or num4 == num2 or num4 == num3):
             num4 = randrange(8,18)
           await message.channel.send('Order of Items: \n' + '1. ' + supportList[randrange(1,6)] + '2. ' + bootList[randrange(len(bootList))] + '3. ' + supportList[num1] + '4. ' + supportList[num2] + '5. ' + supportList[num3] + '6. ' + supportList[num4])
+          break
     else:
       await message.channel.send('This is not a valid category!')
   except asyncio.TimeoutError:
     await message.channel.send('You failed to answer in time!')
+  boots.close()
+  fighter.close()
+  marksman.close()
+  assassin.close()
+  mage.close()
+  tank.close()
+  support.close()
