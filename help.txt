@@ -3,16 +3,16 @@ The following are the commands available to Handler One:
 *help 
 Handler One sends this message to the channel.
 
-*question
-Ask Handler One any question and it will provide an answer!
+*question [enter question here]
+Ask Handler One any question and it will provide an answer! Please note that you must enter your question in the same message as *question.
 
 *quiz
 Handler One sends a random quiz question to the channel for the user to answer.
 subcommands include:
 - *pass
-passes a question
+passes a question. Can only be used after 5 seconds of a question being asked.
 - *exit
-exits the quiz
+exits the quiz. Can only be used after 5 seconds of a question being asked.
 
 *recommend
 Handler One sends a random anime recommendation to the channel.

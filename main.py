@@ -67,12 +67,12 @@ async def on_message(message):
   ]
   patternYN = re.compile('|'.join(r'\b{}\b'.format(word)
                                   for word in keywordsYN))
-  keywordsPercent = ['how', '%', 'percent', 'chance', 'probability']
+  keywordsPercent = ['how', 'percent', 'chance', 'probability']
   patternPercent = re.compile('|'.join(r'\b{}\b'.format(word)
                                        for word in keywordsPercent))
   if message.content.startswith('*question'):
     if 'how many' in message.content:
-      num = randrange(10001)
+      num = randrange(1001)
       await message.channel.send(num)
     elif patternPercent.search(message.content) != None:
       num = randrange(101)
@@ -80,7 +80,7 @@ async def on_message(message):
     elif patternYN.search(message.content) != None:
       answers = [
         'Yes', 'No', 'Maybe', 'Definitely', 'Definitely not', 'Not sure',
-        'Up to you', 'Yeah', 'Nah', 'Yes LOL', 'No LOL'
+        'Up to you', 'Yeah', 'Nah', 'Yes LOL', 'No LOL', 'Probably'
       ]
       await message.channel.send(answers[randrange(len(answers))])
     else:
