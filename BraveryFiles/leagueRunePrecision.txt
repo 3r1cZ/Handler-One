@@ -1,0 +1,20 @@
+Keystone:
+Press the Attack
+Lethal Tempo
+Fleet Footwork
+Conqueror
+
+Slot 1:
+Overheal
+Triumph
+Presence of Mind
+
+Slot 2: 
+Legend: Alacrity
+Legend: Tenacity
+Legend: Bloodline
+
+Slot 3:
+Coup de Grace
+Cut Down
+Last Stand

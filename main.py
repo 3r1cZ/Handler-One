@@ -6,6 +6,7 @@ from keep_alive import keep_alive
 from discord.ext import tasks
 from itertools import cycle
 import quiz
+import bravery
 import asyncio
 
 intents = discord.Intents.default()
@@ -60,6 +61,10 @@ async def on_message(message):
     await message.channel.send(animeList[randrange(len(animeList))])
     animes.close()
 
+  # ultimate bravery on League of Legends, randomizing most parts
+  if message.content == '*bravery':
+    await bravery.bravery(message, client)
+      
   # generates a random response to given keywords when prompted with *question
   keywordsNum = ['how many', 'number of', 'number']
   patternNum = re.compile('|'.join(r'\b{}'.format(word) for word in keywordsNum))
@@ -91,6 +96,7 @@ async def on_message(message):
       emojis = open("emojis.txt", "r")
       EmojiList = emojis.readlines()
       await message.channel.send(EmojiList[randrange(len(EmojiList))])
+      emojis.close()
 
   # sends a goat emoji when a term/phrase in goats.txt is mentioned
   with open("goats.txt") as goats:
@@ -114,7 +120,7 @@ async def on_message(message):
   goats.close()
 
 
-status = cycle(['*help', '*quiz'])
+status = cycle(['*help', '*quiz', '*bravery'])
 
 
 @tasks.loop(seconds=180)

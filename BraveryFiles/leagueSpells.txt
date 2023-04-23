@@ -1,0 +1,9 @@
+Heal
+Ghost
+Barrier
+Exhaust
+Flash
+Teleport
+Smite
+Cleanse
+Ignite

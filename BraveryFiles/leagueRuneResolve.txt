@@ -1,0 +1,19 @@
+Keystone:
+Grasp of the Undying
+Aftershock
+Guardian
+
+Slot 1:
+Demolish
+Font of Life
+Shield Bash
+
+Slot 2:
+Conditioning
+Second Wind
+Bone Plating
+
+Slot 3:
+Overgrowth
+Revitalize
+Unflinching
