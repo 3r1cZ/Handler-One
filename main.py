@@ -70,7 +70,7 @@ async def on_message(message):
   keywordsPercent = ['how', 'percent', 'chance', 'probability']
   patternPercent = re.compile('|'.join(r'\b{}\b'.format(word)
                                        for word in keywordsPercent))
-  if message.content.startswith('*question'):
+  if message.content.startswith('?'):
     if 'how many' in message.content:
       num = randrange(1001)
       await message.channel.send(num)
@@ -110,7 +110,7 @@ async def on_message(message):
   goats.close()
 
 
-status = cycle(['*help', '*quiz', '*question'])
+status = cycle(['*help', '*quiz'])
 
 
 @tasks.loop(seconds=180)

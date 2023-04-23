@@ -3,8 +3,8 @@ The following are the commands available to Handler One:
 *help 
 Handler One sends this message to the channel.
 
-*question [enter question here]
-Ask Handler One any question and it will provide an answer! Please note that you must enter your question in the same message as *question.
+? [enter question here]
+Start any message with '?' to ask Handler One any question and it will provide an answer! Please note that you must enter your question in the same message as *question.
 
 *quiz
 Handler One sends a random quiz question to the channel for the user to answer.
