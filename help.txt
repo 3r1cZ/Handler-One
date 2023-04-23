@@ -7,7 +7,12 @@ Handler One sends this message to the channel.
 Ask Handler One any question and it will provide an answer!
 
 *quiz
-Handler One sends a random quiz question to the channel for the user to answer. Scoring is included with competition to come soon!
+Handler One sends a random quiz question to the channel for the user to answer.
+subcommands include:
+- *pass
+passes a question
+- *exit
+exits the quiz
 
 *recommend
 Handler One sends a random anime recommendation to the channel.

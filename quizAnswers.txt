@@ -30,6 +30,7 @@ nitrogen
 oxygen
 fluorine
 neon
+sodium
 calcium
 spirited away
 blinding lights
@@ -40,6 +41,7 @@ pluto
 winston churchill
 botany
 marathon
+russia
 helsinki
 berlin
 tokyo
@@ -61,8 +63,17 @@ new delhi
 jakarta
 vienna
 madrid
+moscow
+kyiv
 lemonade
 john cena
+tiktok
+valorant
+asia
+mcmaster
+ryerson
+western
+sudbury
 your name
 jurassic world
 lion king
@@ -71,3 +82,8 @@ star wars
 harry potter
 up
 madagascar
+beauty and the beast
+frozen
+coco
+elf
+how to train your dragon

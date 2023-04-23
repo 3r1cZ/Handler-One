@@ -2,9 +2,11 @@
 
 import asyncio
 from random import randrange
+from timeit import default_timer
 
 playerScore = dict()
 exit = False
+
 
 async def reset():
   global playerScore
@@ -32,7 +34,6 @@ async def points(message, client, num):
       return
   exit = True
   await reset()
-    
 
 
 async def quiz(message, client):
@@ -40,6 +41,7 @@ async def quiz(message, client):
   global exit
   nextQuestion = True
   while nextQuestion:
+    start = default_timer()
     nextQuestion = False
     questions = open("quizQuestions.txt", "r")
     questionList = questions.readlines()
@@ -57,12 +59,14 @@ async def quiz(message, client):
     while (notCorrect):
       try:
         response = await client.wait_for("message", check=check, timeout=20)
-        if response.content.lower() == '*exit':
+        if response.content.lower() == '*exit' and (default_timer() -
+                                                    start) > 5:
           await message.channel.send('Exiting quiz.')
           exit = True
           await reset()
           return
-        elif response.content.lower() == '*pass':
+        elif response.content.lower() == '*pass' and (default_timer() -
+                                                      start) > 5:
           await message.channel.send('Question passed. Next Question:')
           notCorrect = False
           nextQuestion = True
