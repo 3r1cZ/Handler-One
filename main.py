@@ -5,7 +5,8 @@ from random import randrange
 from keep_alive import keep_alive
 from discord.ext import tasks
 from itertools import cycle
-from quiz import quiz
+import quiz
+import asyncio
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -35,7 +36,17 @@ async def on_message(message):
   if message.content == '*quiz':
     if commandInProgress == False:
       commandInProgress = True
-      await quiz(message, client)
+      await message.channel.send('How many points would you like to play to?')
+      try:
+        response = await client.wait_for("message", timeout=20)
+        if response.content.isdigit() and int(response.content) != 0:
+          quiz.exit = False
+          await quiz.points(message, client, response.content)
+        else:
+          await message.channel.send('This is not a valid number!')
+      except asyncio.TimeoutError:
+        await message.channel.send('You failed to answer in time!')
+
       commandInProgress = False
     else:
       await message.channel.send('Quiz already in progress!')

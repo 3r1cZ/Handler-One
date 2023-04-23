@@ -20,6 +20,16 @@ mecha
 isekai
 yaoi
 yuri
+hydrogen
+helium
+lithium
+beryllium
+boron
+carbon
+nitrogen
+oxygen
+fluorine
+neon
 calcium
 spirited away
 blinding lights
@@ -57,3 +67,7 @@ your name
 jurassic world
 lion king
 titanic
+star wars
+harry potter
+up
+madagascar
