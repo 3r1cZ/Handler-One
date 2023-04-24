@@ -27,43 +27,6 @@ async def bravery(message, client):
   runeSecondarySlots = []
   shards = open('BraveryFiles/leagueRuneShards.txt', 'r')
   shardList = shards.readlines()
-
-  if runeSecondary == 0:
-    num1 = randrange(2)
-    num2 = randrange(1,3)
-    while(num2 == num1):
-      num2 = randrange(1,3)
-    if num1 == 0:
-      if num2 == 1:
-        runeSecondarySlots = [randrange(7,10),randrange(12,15)]
-      else:
-        runeSecondarySlots = [randrange(7,10),randrange(17,20)]
-    else:
-      runeSecondarySlots = [randrange(12,15), randrange(17,20)]
-  elif runeSecondary == 1:
-    num1 = randrange(2)
-    num2 = randrange(1,3)
-    while(num2 == num1):
-      num2 = randrange(1,3)
-    if num1 == 0:
-      if num2 == 1:
-        runeSecondarySlots = [randrange(7,10),randrange(12,15)]
-      else:
-        runeSecondarySlots = [randrange(7,10),randrange(17,21)]
-    else:
-      runeSecondarySlots = [randrange(12,15), randrange(17,21)]
-  elif runeSecondary == 2 or runeSecondary == 3 or runeSecondary == 4:
-    num1 = randrange(2)
-    num2 = randrange(1,3)
-    while(num2 == num1):
-      num2 = randrange(1,3)
-    if num1 == 0:
-      if num2 == 1:
-        runeSecondarySlots = [randrange(6,9),randrange(11,14)]
-      else:
-        runeSecondarySlots = [randrange(6,9),randrange(16,19)]
-    else:
-      runeSecondarySlots = [randrange(11,14), randrange(16,19)]
     
   precision = open('BraveryFiles/leagueRunePrecision.txt', 'r')
   precisionList = precision.readlines()
@@ -78,58 +41,60 @@ async def bravery(message, client):
   
   if runePath == 0:
     await message.channel.send('Runes: ' + '\nPrimary: Precision' + '\n-Keystone: ' + precisionList[randrange(1,5)] + '-Slot 1: ' + precisionList[randrange(7,10)] + '-Slot 2: ' + precisionList[randrange(12,15)] + '-Slot 3: ' + precisionList[randrange(17,20)])
-    if runeSecondary == 1:
-      await message.channel.send('Secondary: Domination' + '\n-Slot 1: ' + dominationList[runeSecondarySlots[0]] + '-Slot 2: ' + dominationList[runeSecondarySlots[1]] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
-    elif runeSecondary == 2:
-      await message.channel.send('Secondary: Sorcery' + '\n-Slot 1: ' + sorceryList[runeSecondarySlots[0]] + '-Slot 2: ' + sorceryList[runeSecondarySlots[1]] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
-    elif runeSecondary == 3:
-      await message.channel.send('Secondary: Resolve' + '\n-Slot 1: ' + resolveList[runeSecondarySlots[0]] + '-Slot 2: ' + resolveList[runeSecondarySlots[1]] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
-    elif runeSecondary == 4:
-      await message.channel.send('Secondary: Inspiration' + '\n-Slot 1: ' + inspirationList[runeSecondarySlots[0]] + '-Slot 2: ' + inspirationList[runeSecondarySlots[1]] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
-    
   if runePath == 1:
     await message.channel.send('Runes: ' + '\nPrimary: Domination' + '\n-Keystone: ' + dominationList[randrange(1,5)] + '-Slot 1: ' + dominationList[randrange(7,10)] + '-Slot 2: ' + dominationList[randrange(12,15)] + '-Slot 3: ' + dominationList[randrange(17,21)])
-    if runeSecondary == 0:
-      await message.channel.send('Secondary: Precision' + '\n-Slot 1: ' + precisionList[runeSecondarySlots[0]] + '-Slot 2: ' + precisionList[runeSecondarySlots[1]] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
-    elif runeSecondary == 2:
-      await message.channel.send('Secondary: Sorcery' + '\n-Slot 1: ' + sorceryList[runeSecondarySlots[0]] + '-Slot 2: ' + sorceryList[runeSecondarySlots[1]] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
-    elif runeSecondary == 3:
-      await message.channel.send('Secondary: Resolve' + '\n-Slot 1: ' + resolveList[runeSecondarySlots[0]] + '-Slot 2: ' + resolveList[runeSecondarySlots[1]] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
-    elif runeSecondary == 4:
-      await message.channel.send('Secondary: Inspiration' + '\n-Slot 1: ' + inspirationList[runeSecondarySlots[0]] + '-Slot 2: ' + inspirationList[runeSecondarySlots[1]] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
-    
   if runePath == 2:
     await message.channel.send('Runes: ' + '\nPrimary: Sorcery' +'\n-Keystone: ' + sorceryList[randrange(1,4)] + '-Slot 1: ' + sorceryList[randrange(6,9)] + '-Slot 2: ' + sorceryList[randrange(11,14)] + '-Slot 3: ' + sorceryList[randrange(16,19)])
-    if runeSecondary == 1:
-      await message.channel.send('Secondary: Domination' + '\n-Slot 1: ' + dominationList[runeSecondarySlots[0]] + '-Slot 2: ' + dominationList[runeSecondarySlots[1]] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
-    elif runeSecondary == 0:
-      await message.channel.send('Secondary: Precision' + '\n-Slot 1: ' + precisionList[runeSecondarySlots[0]] + '-Slot 2: ' + precisionList[runeSecondarySlots[1]] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
-    elif runeSecondary == 3:
-      await message.channel.send('Secondary: Resolve' + '\n-Slot 1: ' + resolveList[runeSecondarySlots[0]] + '-Slot 2: ' + resolveList[runeSecondarySlots[1]] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
-    elif runeSecondary == 4:
-      await message.channel.send('Secondary: Inspiration' + '\n-Slot 1: ' + inspirationList[runeSecondarySlots[0]] + '-Slot 2: ' + inspirationList[runeSecondarySlots[1]] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
-
   if runePath == 3:
     await message.channel.send('Runes: ' + '\nPrimary: Resolve' +'\n-Keystone: ' + resolveList[randrange(1,4)] + '-Slot 1: ' + resolveList[randrange(6,9)] + '-Slot 2: ' + resolveList[randrange(11,14)] + '-Slot 3: ' + resolveList[randrange(16,19)])
-    if runeSecondary == 1:
-      await message.channel.send('Secondary: Domination' + '\n-Slot 1: ' + dominationList[runeSecondarySlots[0]] + '-Slot 2: ' + dominationList[runeSecondarySlots[1]] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
-    elif runeSecondary == 2:
-      await message.channel.send('Secondary: Sorcery' + '\n-Slot 1: ' + sorceryList[runeSecondarySlots[0]] + '-Slot 2: ' + sorceryList[runeSecondarySlots[1]] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
-    elif runeSecondary == 0:
-      await message.channel.send('Secondary: Precision' + '\n-Slot 1: ' + precisionList[runeSecondarySlots[0]] + '-Slot 2: ' + precisionList[runeSecondarySlots[1]] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
-    elif runeSecondary == 4:
-      await message.channel.send('Secondary: Inspiration' + '\n-Slot 1: ' + inspirationList[runeSecondarySlots[0]] + '-Slot 2: ' + inspirationList[runeSecondarySlots[1]] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
-
   if runePath == 4:
     await message.channel.send('Runes: ' + '\nPrimary: Inspiration' +'\n-Keystone: ' + inspirationList[randrange(1,4)] + '-Slot 1: ' + inspirationList[randrange(6,9)] + '-Slot 2: ' + inspirationList[randrange(11,14)] + '-Slot 3: ' + inspirationList[randrange(16,19)])
-    if runeSecondary == 1:
-      await message.channel.send('Secondary: Domination' + '\n-Slot 1: ' + dominationList[runeSecondarySlots[0]] + '-Slot 2: ' + dominationList[runeSecondarySlots[1]] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
-    elif runeSecondary == 2:
-      await message.channel.send('Secondary: Sorcery' + '\n-Slot 1: ' + sorceryList[runeSecondarySlots[0]] + '-Slot 2: ' + sorceryList[runeSecondarySlots[1]] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
-    elif runeSecondary == 3:
-      await message.channel.send('Secondary: Resolve' + '\n-Slot 1: ' + resolveList[runeSecondarySlots[0]] + '-Slot 2: ' + resolveList[runeSecondarySlots[1]] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
-    elif runeSecondary == 0:
-      await message.channel.send('Secondary: Precision' + '\n-Slot 1: ' + precisionList[runeSecondarySlots[0]] + '-Slot 2: ' + precisionList[runeSecondarySlots[1]] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
+
+  num1 = randrange(2)
+  num2 = randrange(1,3)
+  while(num2 == num1):
+    num2 = randrange(1,3)
+    
+  if runeSecondary == 0:
+    if num1 == 0:
+      if num2 == 1:
+        await message.channel.send('Secondary: Precision' + '\n-Slot 1: ' + precisionList[randrange(7,10)] + '-Slot 2: ' + precisionList[randrange(12,15)] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
+      else:
+        await message.channel.send('Secondary: Precision' + '\n-Slot 1: ' + precisionList[randrange(7,10)] + '-Slot 2: ' + precisionList[randrange(17,20)] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
+    else:
+      await message.channel.send('Secondary: Precision' + '\n-Slot 1: ' + precisionList[randrange(12,15)] + '-Slot 2: ' + precisionList[randrange(17,20)] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
+  elif runeSecondary == 1:
+    if num1 == 0:
+      if num2 == 1:
+        await message.channel.send('Secondary: Domination' + '\n-Slot 1: ' + dominationList[randrange(7,10)] + '-Slot 2: ' + dominationList[randrange(12,15)] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
+      else:
+        await message.channel.send('Secondary: Domination' + '\n-Slot 1: ' + dominationList[randrange(7,10)] + '-Slot 2: ' + dominationList[randrange(17,21)] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
+    else:
+      await message.channel.send('Secondary: Domination' + '\n-Slot 1: ' + dominationList[randrange(12,15)] + '-Slot 2: ' + dominationList[randrange(17,21)] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
+  elif runeSecondary == 2:
+    if num1 == 0:
+      if num2 == 1:
+        await message.channel.send('Secondary: Sorcery' + '\n-Slot 1: ' + sorceryList[randrange(6,9)] + '-Slot 2: ' + sorceryList[randrange(11,14)] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
+      else:
+        await message.channel.send('Secondary: Sorcery' + '\n-Slot 1: ' + sorceryList[randrange(6,9)] + '-Slot 2: ' + sorceryList[randrange(16,19)] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
+    else:
+      await message.channel.send('Secondary: Sorcery' + '\n-Slot 1: ' + sorceryList[randrange(11,14)] + '-Slot 2: ' + sorceryList[randrange(16,19)] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
+  elif runeSecondary == 3:
+    if num1 == 0:
+      if num2 == 1:
+        await message.channel.send('Secondary: Resolve' + '\n-Slot 1: ' + resolveList[randrange(6,9)] + '-Slot 2: ' + resolveList[randrange(11,14)] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
+      else:
+        await message.channel.send('Secondary: Resolve' + '\n-Slot 1: ' + resolveList[randrange(6,9)] + '-Slot 2: ' + resolveList[randrange(16,19)] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
+    else:
+      await message.channel.send('Secondary: Resolve' + '\n-Slot 1: ' + resolveList[randrange(11,14)] + '-Slot 2: ' + resolveList[randrange(16,19)] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
+  elif runeSecondary == 4:
+    if num1 == 0:
+      if num2 == 1:
+        await message.channel.send('Secondary: Inspiration' + '\n-Slot 1: ' + inspirationList[randrange(6,9)] + '-Slot 2: ' + inspirationList[randrange(11,14)] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
+      else:
+        await message.channel.send('Secondary: Inspiration' + '\n-Slot 1: ' + inspirationList[randrange(6,9)] + '-Slot 2: ' + inspirationList[randrange(16,19)] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
+    else:
+      await message.channel.send('Secondary: Inspiration' + '\n-Slot 1: ' + inspirationList[randrange(11,14)] + '-Slot 2: ' + inspirationList[randrange(16,19)] + '-Shard 1: ' + shardList[randrange(1,4)] + '-Shard 2: ' + shardList[randrange(6,9)] + '-Shard 3: ' + shardList[randrange(11,14)])
   shards.close()
   precision.close()
   domination.close()

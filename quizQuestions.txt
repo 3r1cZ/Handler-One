@@ -36,6 +36,8 @@ What is the highest grossing movie by Studio Ghibli?
 What is the most streamed song on Spotify? (as of 4/23)
 What is the smallest planet in our solar system?
 What is the largest planet in our solar system?
+Which planet in the solar system has the most rings?
+What is Alberta's greatest economic contribution to Canada?
 Which planet is closest to the sun?
 What is the most known dwarf planet?
 Who was the prime minister of the UK during World War 2?
@@ -87,6 +89,52 @@ What organ pumps blood through the body?
 What organ extracts oxygen from the air?
 What is the new name of Hotmail?
 What is the most popular video conferencing software starting with Z?
+How many chambers does the heart have? (use numbers)
+Who is the celebrity British chef known for hurling brutal insults?
+What is the second-most spoken language in the world?
+What does the A in OSAP stand for?
+What happens every four years in the calendar?
+Which city will the 2024 olympics be held in?
+Which city was the 2022 olympics held in?
+What is the first finger called?
+What is the second finger called?
+What is the third finger called?
+What is the fourth finger called?
+What is the fifth finger called?
+What continent is Andorra located in?
+What continent is Eritrea located in?
+What continent is Bhutan located in?
+What continent is Papua New Guinea located in?
+What continent is the Solomon Islands located in?
+What continent is Myanmar located in?
+What continent is Guinea located in?
+What continent is Montenegro located in?
+What continent is Bolivia located in?
+What continent is Haiti located in?
+What continent is Paraguay located in?
+What continent is North Macedonia located in?
+What continent is Libya located in?
+What continent is Chad located in?
+What continent is Mongolia located in?
+What continent is Malawi located in?
+What continent is French Guiana located in?
+What continent is Niger located in?
+What continent is Belarus located in?
+What continent is Cuba located in?
+What continent is Uruguay located in?
+What is the spiciest pepper in the world?
+Which body part is pork butt actually from?
+What is the average height of a male in the US? (number foot number)
+What does the E in FSWEP stand for?
+What does the U in USA stand for?
+Who became prime minister of Canada in 2015?
+What is the name of the international airport in Toronto?
+What is the first colour of the rainbow?
+What is the Facebook company's new name?
+What is the Google company's new name?
+What type of leaf is in the Canadian flag?
+What is the official animal of Canada?
+What is the name of the national anthem of Canada?
 Guess the movie: ☄👦❤👧
 Guess the movie: 🦖🌎
 Guess the movie: 🦁👑
@@ -100,3 +148,5 @@ Guess the movie: ❄🧊
 Guess the movie: 💀🎸🇲🇽
 Guess the movie: 🎄🧝
 Guess the movie: 👨🚆🐉
+Guess the movie: 💉🐻
+Guess the movie: 🪖👨🇺🇸

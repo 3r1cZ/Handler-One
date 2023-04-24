@@ -25,7 +25,7 @@ async def on_ready():
 @client.event
 async def on_message(message):
   # returns when the author of a message is the bot itself
-  if message.author == client.user:
+  if message.author == client.user or message.author.id == 432610292342587392:
     return
 
   # sends a text file containing all functions for the user to use
@@ -79,7 +79,7 @@ async def on_message(message):
   keywordsPercent = ['how much', 'percent', 'chance', 'probability']
   patternPercent = re.compile('|'.join(r'\b{}'.format(word)
                                        for word in keywordsPercent))
-  if message.content.startswith('**') and message.author.id != 432610292342587392:
+  if message.content.startswith('**'):
     if patternNum.search(message.content.lower()) != None:
       num = randrange(1001)
       await message.channel.send(num)

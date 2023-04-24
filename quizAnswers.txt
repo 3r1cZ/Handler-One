@@ -36,6 +36,8 @@ spirited away
 blinding lights
 mercury
 jupiter
+saturn
+oil
 mercury
 pluto
 winston churchill
@@ -87,6 +89,52 @@ heart
 lungs
 outlook
 zoom
+4
+gordon ramsay
+mandarin
+assistance
+leap year
+paris
+beijing
+thumb
+index
+middle
+ring
+pinky
+europe
+africa
+asia
+oceania
+oceania
+asia
+africa
+europe
+south america
+north america
+south america
+europe
+africa
+africa
+asia
+africa
+south america
+africa
+europe
+north america
+south america
+carolina reaper
+shoulder
+5 foot 9
+experience
+united
+justin trudeau
+pearson
+red
+meta
+alphabet
+maple
+beaver
+o canada
 your name
 jurassic world
 lion king
@@ -100,3 +148,5 @@ frozen
 coco
 elf
 how to train your dragon
+cocaine bear
+captain america

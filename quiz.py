@@ -59,17 +59,23 @@ async def quiz(message, client):
     while (notCorrect):
       try:
         response = await client.wait_for("message", check=check, timeout=20)
-        if response.content.lower() == '*exit' and (default_timer() -
-                                                    start) > 5:
-          await message.channel.send('Exiting quiz.')
-          exit = True
-          await reset()
-          return
-        elif response.content.lower() == '*pass' and (default_timer() -
-                                                      start) > 5:
-          await message.channel.send('Question passed. Next Question:')
-          notCorrect = False
-          nextQuestion = True
+        if response.content.lower() == '*exit':
+          if (default_timer() - start) > 5:
+            await message.channel.send('Exiting quiz.')
+            exit = True
+            await reset()
+            return
+          else:
+            await message.channel.send(
+              'You must wait 5 seconds before exiting!')
+        elif response.content.lower() == '*pass':
+          if (default_timer() - start) > 5:
+            await message.channel.send('Question passed. Next Question:')
+            notCorrect = False
+            nextQuestion = True
+          else:
+            await message.channel.send(
+              'You must wait 5 seconds before passing!')
         elif response.content.lower() == answerList[randomQuestionNum]:
           await response.add_reaction('\U00002705')
           if response.author.id in playerScore:
