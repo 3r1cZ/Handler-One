@@ -30,9 +30,16 @@ async def on_message(message):
 
   # sends a text file containing all functions for the user to use
   if message.content == '*help':
-    await message.channel.send(file=discord.File('help.txt'))
+    help = open('help.txt', 'r')
+    await message.channel.send(help.read())
+    help.close()
 
   global commandInProgress
+
+  # checking conditions for a response
+  def check(response):
+    return response.channel == message.channel
+
   # generates a quiz for a user to guess when prompted by *quiz
   if message.content == '*quiz':
     if commandInProgress == False:
@@ -41,7 +48,7 @@ async def on_message(message):
         'How many points would you like to play to? \nNote: you can use \*exit to end the quiz and \*pass to pass a question'
       )
       try:
-        response = await client.wait_for("message", timeout=20)
+        response = await client.wait_for("message", check=check, timeout=20)
         if response.content.isdigit() and int(response.content) != 0:
           quiz.exit = False
           await quiz.points(message, client, response.content)
@@ -52,7 +59,7 @@ async def on_message(message):
 
       commandInProgress = False
     else:
-      await message.channel.send('Quiz already in progress!')
+      await message.channel.send('Command already in progress!')
 
   # generates a random sentence from animes.txt when prompted by *recommend
   if message.content == '*recommend':
@@ -63,11 +70,17 @@ async def on_message(message):
 
   # ultimate bravery on League of Legends, randomizing most parts
   if message.content == '*bravery':
-    await bravery.bravery(message, client)
-      
+    if commandInProgress == False:
+      commandInProgress = True
+      await bravery.bravery(message, client)
+      commandInProgress = False
+    else:
+      await message.channel.send('Command already in progress!')
+
   # generates a random response to given keywords when prompted with *question
   keywordsNum = ['how many', 'number of', 'number']
-  patternNum = re.compile('|'.join(r'\b{}'.format(word) for word in keywordsNum))
+  patternNum = re.compile('|'.join(r'\b{}'.format(word)
+                                   for word in keywordsNum))
   keywordsYN = [
     'do', 'is', 'have', 'has', 'am', 'are', 'will', 'if', 'were', 'was',
     'should', 'would', 'does', '=', 'equals', 'equal', '=='
@@ -75,7 +88,7 @@ async def on_message(message):
   keywordsYNSpecial = ['=', '==']
   patternYN = re.compile('|'.join(r'\b{}'.format(word) for word in keywordsYN))
   patternYNSpecial = re.compile('|'.join(word for word in keywordsYNSpecial))
-  
+
   keywordsPercent = ['how much', 'percent', 'chance', 'probability']
   patternPercent = re.compile('|'.join(r'\b{}'.format(word)
                                        for word in keywordsPercent))
@@ -83,10 +96,13 @@ async def on_message(message):
     if patternNum.search(message.content.lower()) != None:
       num = randrange(1001)
       await message.channel.send(num)
-    elif patternPercent.search(message.content.lower()) != None or re.search('%', message.content) != None:
+    elif patternPercent.search(message.content.lower()) != None or re.search(
+        '%', message.content) != None:
       num = randrange(101)
       await message.channel.send(str(num) + '%')
-    elif patternYN.search(message.content.lower()) != None or patternYNSpecial.search(message.content.lower()) != None:
+    elif patternYN.search(
+        message.content.lower()) != None or patternYNSpecial.search(
+          message.content.lower()) != None:
       answers = [
         'Yes', 'No', 'Maybe', 'Definitely', 'Definitely not', 'Not sure',
         'Up to you', 'Yeah', 'Nah', 'Yes LOL', 'No LOL', 'Probably'
