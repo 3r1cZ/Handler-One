@@ -150,6 +150,7 @@ manitoba
 alaska
 green
 greenbelt
+pacific
 your name
 jurassic world
 lion king
@@ -165,3 +166,6 @@ elf
 how to train your dragon
 cocaine bear
 captain america
+yuri on ice
+demon slayer
+food wars

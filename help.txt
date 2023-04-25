@@ -9,6 +9,9 @@ Start any message with '**' to ask Handler One any question and it will provide 
 
 *bravery
 Generate a completely random champion and build to play in League of Legends!
+subcommand:
+- *bravery jg
+Generate a build for jungle (guaranteed smite)
 
 *quiz
 Handler One sends a random quiz question to the channel for the user to answer.

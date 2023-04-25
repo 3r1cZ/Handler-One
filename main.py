@@ -69,10 +69,13 @@ async def on_message(message):
     animes.close()
 
   # ultimate bravery on League of Legends, randomizing most parts
-  if message.content == '*bravery':
+  if message.content.startswith('*bravery'):
     if commandInProgress == False:
       commandInProgress = True
-      await bravery.bravery(message, client)
+      if 'jg' in message.content:
+        await bravery.bravery(message, client, True)
+      else:
+        await bravery.bravery(message, client, False)
       commandInProgress = False
     else:
       await message.channel.send('Command already in progress!')
