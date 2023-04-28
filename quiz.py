@@ -6,11 +6,14 @@ from timeit import default_timer
 
 playerScore = dict()
 exit = False
+failsToAnswer = 0
 
 
 async def reset():
   global playerScore
+  global failsToAnswer
   playerScore.clear()
+  failsToAnswer = 0
 
 
 async def points(message, client, num):
@@ -39,6 +42,7 @@ async def points(message, client, num):
 async def quiz(message, client):
   global playerScore
   global exit
+  global failsToAnswer
   nextQuestion = True
   while nextQuestion:
     start = default_timer()
@@ -89,6 +93,12 @@ async def quiz(message, client):
       except asyncio.TimeoutError:
         await message.channel.send('You failed to answer in time!')
         notCorrect = False
+        failsToAnswer += 1
+        if failsToAnswer == 10:
+          await message.channel.send('Exiting quiz.')
+          exit = True
+          await reset()
+          return
 
     questions.close()
     answers.close()
