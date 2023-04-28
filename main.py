@@ -80,6 +80,21 @@ async def on_message(message):
     else:
       await message.channel.send('Command already in progress!')
 
+  if message.content == '*valAgent':
+    agents = open("BraveryValorant/valAgents.txt", "r")
+    agentList = agents.readlines()
+    await message.channel.send(agentList[randrange(len(agentList))])
+    agents.close()
+
+  if message.content.startswith('*valGun'):
+    guns = open("BraveryValorant/valGuns.txt", "r")
+    gunList = guns.readlines()
+    if '1' in message.content or '13' in message.content:
+      await message.channel.send(gunList[randrange(5)])
+    else:
+      await message.channel.send(gunList[randrange(len(gunList))])
+    guns.close()
+
   # generates a random response to given keywords when prompted with *question
   keywordsNum = ['how many', 'number of', 'number']
   patternNum = re.compile('|'.join(r'\b{}'.format(word)

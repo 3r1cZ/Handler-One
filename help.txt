@@ -13,6 +13,12 @@ subcommand:
 - *bravery jg
 Generate a build for jungle (guaranteed smite)
 
+*valAgent
+Generate a random agent to play in Valorant!
+
+*valGun [round number]
+Generate a random gun to play with in a Valorant round! For the ultimate bravery, run this command every time you die in a game.
+
 *quiz
 Handler One sends a random quiz question to the channel for the user to answer.
 subcommands include:
