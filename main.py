@@ -89,7 +89,7 @@ async def on_message(message):
   if message.content.startswith('*valGun'):
     guns = open("BraveryValorant/valGuns.txt", "r")
     gunList = guns.readlines()
-    if '1' in message.content or '13' in message.content:
+    if '1' == message.content[len(message.content) - 1] or '13' in message.content:
       await message.channel.send(gunList[randrange(5)])
     else:
       await message.channel.send(gunList[randrange(len(gunList))])
