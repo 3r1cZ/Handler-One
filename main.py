@@ -7,7 +7,11 @@ from discord.ext import tasks
 from itertools import cycle
 import quiz
 import bravery
+import music
 import asyncio
+from dotenv import load_dotenv
+
+load_dotenv()
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -33,6 +37,10 @@ async def on_message(message):
     help = open('help.txt', 'r')
     await message.channel.send(help.read())
     help.close()
+
+  if message.content.startswith('*play'):
+      song = message.content[5: len(message.content)]
+      await music.play(message, song)
 
   global commandInProgress
 
@@ -160,7 +168,6 @@ status = cycle(['*help', '*quiz', '*bravery'])
 @tasks.loop(seconds=180)
 async def change_status():
   await client.change_presence(activity=discord.Game(next(status)))
-
 
 keep_alive()
 client.run(os.getenv('token'))
