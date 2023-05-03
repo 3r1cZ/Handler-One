@@ -40,7 +40,7 @@ async def on_message(message):
 
   if message.content.startswith('*play'):
       song = message.content[5: len(message.content)]
-      await music.play(message, song)
+      await music.play(client, message, song)
 
   global commandInProgress
 
