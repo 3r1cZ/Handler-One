@@ -38,9 +38,12 @@ async def on_message(message):
     await message.channel.send(help.read())
     help.close()
 
-  if message.content.startswith('*play'):
-      #song = message.content[5: len(message.content)]
-      await music.play(message)
+  if message.content == '*play':
+    await music.play(message)
+  
+  if message.content.startswith('*playYoutube'):
+    song = message.content[5: len(message.content)]
+    await music.playYoutube(client, message, song)
 
   if message.content == ('*skip'):
     if music.vc is not None and music.vc:
@@ -182,7 +185,7 @@ async def on_message(message):
   goats.close()
 
 
-status = cycle(['*help', '*quiz', '*bravery'])
+status = cycle(['*help', '*quiz', '*bravery', '*play'])
 
 
 @tasks.loop(seconds=180)

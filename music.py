@@ -1,6 +1,5 @@
 import discord
 import yt_dlp
-import asyncio
 from random import randrange
 
 FFMPEG_OPTIONS = {
@@ -73,23 +72,26 @@ async def leave(message):
         await message.channel.send('Left the voice channel!')
     else: 
         await message.channel.send("Currently not in a voice channel!")
-    # if message.author.voice == None:
-    #     await message.channel.send("You need to be in a voice channel to use this command!")
-    #     return
 
-    # channel = message.author.voice.channel
+async def playYoutube(client, message, url):
+    if message.author.voice == None:
+        await message.channel.send("You need to be in a voice channel to use this command!")
+        return
+
+    channel = message.author.voice.channel
 
 
-    # voice_client = discord.utils.get(client.voice_clients, guild=message.guild)
+    voice_client = discord.utils.get(client.voice_clients, guild=message.guild)
 
-    # if voice_client == None:
-    #     voice_client = await channel.connect()
-    # else:
-    #     await voice_client.move_to(channel)
+    if voice_client == None:
+        voice_client = await channel.connect()
+    else:
+        await voice_client.move_to(channel)
 
-    # with yt_dlp.YoutubeDL(YTDLP_OPTIONS) as ydl:
-    #     info = ydl.extract_info(url, download=False)
-    #     playUrl = info['webpage_url']
-
-    # source = discord.FFmpegPCMAudio(source=playUrl, **FFMPEG_OPTIONS)
-    # voice_client.play(source, after=lambda e: print('Song done'))
+    with yt_dlp.YoutubeDL(YTDLP_OPTIONS) as ydl:
+        info = ydl.extract_info(url, download=False)
+        playUrl = info['entries'][0]['webpage_url']
+        # playUrl = info['webpage_url']
+    print(playUrl)
+    source = discord.FFmpegPCMAudio(playUrl, **FFMPEG_OPTIONS)
+    voice_client.play(source, after=lambda e: print('Song done'))
