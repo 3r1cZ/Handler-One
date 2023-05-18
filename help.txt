@@ -7,6 +7,12 @@ Handler One sends this message to the channel.
 ** [enter question here]
 Start any message with '**' to ask Handler One any question and it will provide an answer! Please note that you must enter your question in the same message as **
 
+*play
+The bot will play a random song in a voice channel!
+subcommand:
+- *leave
+The bot will disconnect from the voice channel.
+
 *bravery
 Generate a completely random champion and build to play in League of Legends!
 subcommand:
@@ -26,7 +32,8 @@ subcommands include:
 passes a question. Can only be used after 5 seconds of a question being asked.
 - *exit
 exits the quiz. Can only be used after 5 seconds of a question being asked.
-
+- *quiz music
+A random mp3 file will be sent to the channel to guess a song
 *recommend
 Handler One sends a random anime recommendation to the channel.
 ```
