@@ -32,14 +32,26 @@ async def play(client, message):
     voice_channel=message.author.voice.channel
     # only play music if user is in a voice channel
     if voice_channel!= None:
-        # create StreamPlayer
-        vc= await voice_channel.connect()
-        player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
-        vc.play(player, after=None)
+        if message.guild.voice_client:
+
+            # NEED TO FIX: UnboundLocalError: local variable 'vc' referenced before assignment
+            randomQuestionNum = randrange(len(songList))
+            player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
+            vc.play(player, after=None)
+        else:# create StreamPlayer
+            vc= await voice_channel.connect()
+            player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
+            vc.play(player, after=None)
     else:
         await client.say('User is not in a channel.')
     songs.close()
 
+async def leave(message):
+    if (message.guild.voice_client): # If the bot is in a voice channel 
+        await message.guild.voice_client.disconnect() # Leave the channel
+        await message.channel.send('Left the voice channel!')
+    else: # But if it isn't
+        await message.channel.send("I'm currently not in a voice channel!")
     # if message.author.voice == None:
     #     await message.channel.send("You need to be in a voice channel to use this command!")
     #     return

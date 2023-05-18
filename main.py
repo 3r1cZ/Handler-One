@@ -42,6 +42,8 @@ async def on_message(message):
       #song = message.content[5: len(message.content)]
       await music.play(client, message)
 
+  if message.content == '*leave':
+    await music.leave(message)
   global commandInProgress
 
   # checking conditions for a response
