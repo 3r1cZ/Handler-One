@@ -9,9 +9,15 @@ Start any message with '**' to ask Handler One any question and it will provide 
 
 *play
 The bot will play a random song in a voice channel!
-subcommand:
+subcommands:
 - *leave
 The bot will disconnect from the voice channel.
+- *pause
+The bot will pause the current song.
+- *resume
+The bot will resume the current song.
+- *skip
+The bot will skip the song and play a random song next
 
 *bravery
 Generate a completely random champion and build to play in League of Legends!

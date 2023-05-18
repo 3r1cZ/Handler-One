@@ -46,19 +46,25 @@ async def on_message(message):
     await music.playYoutube(client, message, song)
 
   if message.content == ('*skip'):
-    if music.vc is not None and music.vc:
+    if music.vc is not None and music.vc and message.guild.voice_client:
         music.vc.stop()
         await message.channel.send('Song skipped!')
     else:
       await message.channel.send('Skip failed!')
 
   if message.content == ('*pause'):
-    await message.channel.send('Song paused!')
-    music.pause(music.vc)
+    if music.vc is not None and music.vc and message.guild.voice_client:
+      await message.channel.send('Song paused!')
+      music.pause(music.vc)
+    else:
+      await message.channel.send('Pause failed!')
   
   if message.content == ('*resume'):
-    await message.channel.send('Song resumed!')
-    music.resume(music.vc)
+    if music.vc is not None and music.vc and message.guild.voice_client:
+      await message.channel.send('Song resumed!')
+      music.resume(music.vc)
+    else:
+      await message.channel.send('Resume failed!')
 
   if message.content == '*leave':
     await music.leave(message)
