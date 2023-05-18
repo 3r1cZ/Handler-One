@@ -3,6 +3,7 @@
 Handler One is a discord bot utilized for entertainment.
 
 ## Features
+* Playing music
 * Quiz Competitions
 * Answering simple 'yes' or 'no' questions from keywords
 * AI Chatting (implemented through https://github.com/3r1cZ/Chatbot)
