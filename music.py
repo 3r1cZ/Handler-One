@@ -24,34 +24,55 @@ YTDLP_OPTIONS = {
                 'source_address': '0.0.0.0',
 }
 
-async def play(client, message):
+vc = None
+
+async def play(message):
+    global vc
+    with open("musicQuizQuestions.txt") as songs:
+        songList = songs.read().splitlines()
+    # grab the user who sent the command
+    voice_channel=message.author.voice
+    # only play music if user is in a voice channel
+    if voice_channel!= None:
+        print(message.guild.voice_client)
+        if message.guild.voice_client:
+            if vc.is_playing():
+                await message.channel.send("Currently playing song!")
+            else:
+                randomQuestionNum = randrange(len(songList))
+                player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
+                vc.play(player, after=lambda e: skip(vc))
+                await message.channel.send("Now Playing.")
+        else:# create StreamPlayer
+            vc = await voice_channel.channel.connect()
+            randomQuestionNum = randrange(len(songList))
+            player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
+            vc.play(player, after=lambda e: skip(vc))
+            await message.channel.send("Now Playing.")
+    else:
+        await message.channel.send('Must be in a channel!')
+    songs.close()
+
+def skip(vc):
     with open("musicQuizQuestions.txt") as songs:
         songList = songs.read().splitlines()
     randomQuestionNum = randrange(len(songList))
-    # grab the user who sent the command
-    voice_channel=message.author.voice.channel
-    # only play music if user is in a voice channel
-    if voice_channel!= None:
-        if message.guild.voice_client:
+    vc.stop()
+    player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
+    vc.play(player, after=lambda e: skip(vc))
 
-            # NEED TO FIX: UnboundLocalError: local variable 'vc' referenced before assignment
-            randomQuestionNum = randrange(len(songList))
-            player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
-            vc.play(player, after=None)
-        else:# create StreamPlayer
-            vc= await voice_channel.connect()
-            player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
-            vc.play(player, after=None)
-    else:
-        await client.say('User is not in a channel.')
-    songs.close()
+def pause(vc):
+    vc.pause()
+
+def resume(vc):
+    vc.resume()
 
 async def leave(message):
-    if (message.guild.voice_client): # If the bot is in a voice channel 
+    if message.guild.voice_client: # If the bot is in a voice channel 
         await message.guild.voice_client.disconnect() # Leave the channel
         await message.channel.send('Left the voice channel!')
-    else: # But if it isn't
-        await message.channel.send("I'm currently not in a voice channel!")
+    else: 
+        await message.channel.send("Currently not in a voice channel!")
     # if message.author.voice == None:
     #     await message.channel.send("You need to be in a voice channel to use this command!")
     #     return

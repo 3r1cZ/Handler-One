@@ -40,7 +40,22 @@ async def on_message(message):
 
   if message.content.startswith('*play'):
       #song = message.content[5: len(message.content)]
-      await music.play(client, message)
+      await music.play(message)
+
+  if message.content == ('*skip'):
+    if music.vc is not None and music.vc:
+        music.vc.stop()
+        await message.channel.send('Song skipped!')
+    else:
+      await message.channel.send('Skip failed!')
+
+  if message.content == ('*pause'):
+    await message.channel.send('Song paused!')
+    music.pause(music.vc)
+  
+  if message.content == ('*resume'):
+    await message.channel.send('Song resumed!')
+    music.resume(music.vc)
 
   if message.content == '*leave':
     await music.leave(message)
