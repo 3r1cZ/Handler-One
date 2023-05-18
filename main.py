@@ -39,8 +39,8 @@ async def on_message(message):
     help.close()
 
   if message.content.startswith('*play'):
-      song = message.content[5: len(message.content)]
-      await music.play(client, message, song)
+      #song = message.content[5: len(message.content)]
+      await music.play(client, message)
 
   global commandInProgress
 
@@ -49,7 +49,10 @@ async def on_message(message):
     return response.channel == message.channel
 
   # generates a quiz for a user to guess when prompted by *quiz
-  if message.content == '*quiz':
+  if message.content.startswith('*quiz'):
+    musics = False
+    if 'music' in message.content:
+      musics = True
     if commandInProgress == False:
       commandInProgress = True
       await message.channel.send(
@@ -59,7 +62,7 @@ async def on_message(message):
         response = await client.wait_for("message", check=check, timeout=20)
         if response.content.isdigit() and int(response.content) != 0:
           quiz.exit = False
-          await quiz.points(message, client, response.content)
+          await quiz.points(message, client, response.content, musics)
         else:
           await message.channel.send('This is not a valid number!')
       except asyncio.TimeoutError:

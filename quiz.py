@@ -1,5 +1,6 @@
 # This class implements the quiz feature of the discord bot
 
+import discord
 import asyncio
 from random import randrange
 from timeit import default_timer
@@ -16,7 +17,7 @@ async def reset():
   failsToAnswer = 0
 
 
-async def points(message, client, num):
+async def points(message, client, num, music):
   global playerScore
   global exit
   won = False
@@ -30,7 +31,7 @@ async def points(message, client, num):
         won = True
         break
     if won == False and exit == False:
-      await quiz(message, client)
+      await quiz(message, client, music)
     elif won == True:
       await message.channel.send(f'<@{winner}> is the winner!')
     else:
@@ -39,7 +40,7 @@ async def points(message, client, num):
   await reset()
 
 
-async def quiz(message, client):
+async def quiz(message, client, music):
   global playerScore
   global exit
   global failsToAnswer
@@ -47,12 +48,21 @@ async def quiz(message, client):
   while nextQuestion:
     start = default_timer()
     nextQuestion = False
-    questions = open("quizQuestions.txt", "r")
-    questionList = questions.readlines()
-    with open("quizAnswers.txt") as answers:
-      answerList = answers.read().splitlines()
-    randomQuestionNum = randrange(len(questionList))
-    await message.channel.send(questionList[randomQuestionNum])
+    if music:
+      with open("musicQuizQuestions.txt") as questions:
+        questionList = questions.read().splitlines()
+      with open("musicQuizAnswers.txt") as answers:
+        answerList = answers.read().splitlines()
+      randomQuestionNum = randrange(len(questionList))
+      q = questionList[randomQuestionNum]
+      await message.channel.send(file=discord.File(q))
+    else:
+      questions = open("quizQuestions.txt", encoding="utf8")
+      questionList = questions.readlines()
+      with open("quizAnswers.txt") as answers:
+        answerList = answers.read().splitlines()
+      randomQuestionNum = randrange(len(questionList))
+      await message.channel.send(questionList[randomQuestionNum])
 
     # checking conditions for a response
     def check(response):
@@ -100,5 +110,5 @@ async def quiz(message, client):
           await reset()
           return
 
-    questions.close()
-    answers.close()
+  questions.close()
+  answers.close()

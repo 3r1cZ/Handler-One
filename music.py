@@ -1,5 +1,7 @@
 import discord
 import yt_dlp
+import asyncio
+from random import randrange
 
 FFMPEG_OPTIONS = {
                 'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
@@ -22,24 +24,39 @@ YTDLP_OPTIONS = {
                 'source_address': '0.0.0.0',
 }
 
-async def play(client, message, url):
-    if message.author.voice == None:
-        await message.channel.send("You need to be in a voice channel to use this command!")
-        return
-
-    channel = message.author.voice.channel
-
-
-    voice_client = discord.utils.get(client.voice_clients, guild=message.guild)
-
-    if voice_client == None:
-        voice_client = await channel.connect()
+async def play(client, message):
+    with open("musicQuizQuestions.txt") as songs:
+        songList = songs.read().splitlines()
+    randomQuestionNum = randrange(len(songList))
+    # grab the user who sent the command
+    voice_channel=message.author.voice.channel
+    # only play music if user is in a voice channel
+    if voice_channel!= None:
+        # create StreamPlayer
+        vc= await voice_channel.connect()
+        player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
+        vc.play(player, after=None)
     else:
-        await voice_client.move_to(channel)
+        await client.say('User is not in a channel.')
+    songs.close()
 
-    with yt_dlp.YoutubeDL(YTDLP_OPTIONS) as ydl:
-        info = ydl.extract_info(url, download=False)
-        playUrl = info['webpage_url']
+    # if message.author.voice == None:
+    #     await message.channel.send("You need to be in a voice channel to use this command!")
+    #     return
 
-    source = discord.FFmpegPCMAudio(source=playUrl, **FFMPEG_OPTIONS)
-    voice_client.play(source, after=lambda e: print('Song done'))
+    # channel = message.author.voice.channel
+
+
+    # voice_client = discord.utils.get(client.voice_clients, guild=message.guild)
+
+    # if voice_client == None:
+    #     voice_client = await channel.connect()
+    # else:
+    #     await voice_client.move_to(channel)
+
+    # with yt_dlp.YoutubeDL(YTDLP_OPTIONS) as ydl:
+    #     info = ydl.extract_info(url, download=False)
+    #     playUrl = info['webpage_url']
+
+    # source = discord.FFmpegPCMAudio(source=playUrl, **FFMPEG_OPTIONS)
+    # voice_client.play(source, after=lambda e: print('Song done'))
