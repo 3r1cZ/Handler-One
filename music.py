@@ -3,6 +3,7 @@
 import discord
 import yt_dlp
 from random import randrange
+from timeit import default_timer
 
 FFMPEG_OPTIONS = {
                 'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
@@ -28,7 +29,7 @@ YTDLP_OPTIONS = {
 vc = None
 
 # plays a song
-async def play(message):
+async def play(message, time):
     global vc
     with open("musicFiles/musicQuizQuestions.txt") as songs:
         songList = songs.read().splitlines()
@@ -47,6 +48,11 @@ async def play(message):
                 print(answerList[randomQuestionNum])
                 vc.play(player, after=lambda e: skip(vc))
                 await message.channel.send("Now Playing.")
+                if time != None:
+                    start = default_timer()
+                    while default_timer()-start <=int(time):
+                        print(default_timer()-start)
+                    vc.pause()
         else:# if the bot is not in a voice channel, it joins it and starts playing
             vc = await voice_channel.channel.connect()
             randomQuestionNum = randrange(len(songList))
@@ -54,6 +60,11 @@ async def play(message):
             print(answerList[randomQuestionNum])
             vc.play(player, after=lambda e: skip(vc))
             await message.channel.send("Now Playing.")
+            if time != None:
+                start = default_timer()
+                while default_timer()-start <=int(time):
+                    print(default_timer()-start)
+                vc.pause()
     else:
         await message.channel.send('Must be in a channel!')
     songs.close()

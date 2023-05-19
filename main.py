@@ -40,12 +40,17 @@ async def on_message(message):
 
   # plays music from an mp3 file in a voice channel
   if message.content == '*play':
-    await music.play(message)
-  
+    await music.play(message, None)
   # plays music from a YouTube URL in a voice channel
-  if message.content.startswith('*playYoutube'):
+  elif message.content.startswith('*playYoutube'):
     song = message.content[5: len(message.content)]
     await music.playYoutube(client, message, song)
+  elif message.content.startswith('*play'):
+    num = message.content[6: len(message.content)]
+    if num.isdigit() == False:
+      await message.channel.send('Invalid time.')
+    else:
+      await music.play(message, num)
 
   # skips the current song playing and plays a new song
   if message.content == ('*skip'):
