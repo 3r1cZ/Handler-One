@@ -1,3 +1,5 @@
+# this class implements the League of Legends bravery feature of the discord bot
+
 from random import randrange
 import asyncio
 
@@ -226,14 +228,15 @@ async def bravery(message, client, jungle):
   def check(response):
     return response.channel == message.channel and response.author == message.author
 
+  # checks for which item set to send
   await message.channel.send(
     champion + spell + runePrimary + runeSecond + abilityOrder + ward +
     '\nPick a category for items: Fighter, Marksman, Assassin, Mage, Tank, Support'
   )
-  try:
-    response = await client.wait_for("message", check=check, timeout=20)
+  try: # checks for a user response
+    response = await client.wait_for("message", check=check, timeout=30)
     for item in itemCategories:
-      if response.content.lower() == item:
+      if response.content.lower() == item: # if the response matches an item set
         if item == 'fighter':
           num1 = randrange(8, 25)
           num2 = randrange(8, 25)
@@ -346,9 +349,9 @@ async def bravery(message, client, jungle):
                                      supportList[num3] + '6. ' +
                                      supportList[num4])
           break
-    else:
+    else: # if the response is an invalid category
       await message.channel.send('This is not a valid category!')
-  except asyncio.TimeoutError:
+  except asyncio.TimeoutError: # if no response is received within 30 seconds
     await message.channel.send('You failed to answer in time!')
   boots.close()
   fighter.close()

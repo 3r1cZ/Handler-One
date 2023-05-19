@@ -1,3 +1,5 @@
+# This class implements the music features of the discord bot
+
 import discord
 import yt_dlp
 from random import randrange
@@ -25,47 +27,55 @@ YTDLP_OPTIONS = {
 
 vc = None
 
+# plays a song
 async def play(message):
     global vc
-    with open("musicQuizQuestions.txt") as songs:
+    with open("musicFiles/musicQuizQuestions.txt") as songs:
         songList = songs.read().splitlines()
-    # grab the user who sent the command
+    # user channel
     voice_channel=message.author.voice
     # only play music if user is in a voice channel
     if voice_channel!= None:
-        print(message.guild.voice_client)
-        if message.guild.voice_client:
-            if vc.is_playing():
+        if message.guild.voice_client: # if the bot is aready in a voice channel
+            if vc.is_playing(): # if a song is already being played
                 await message.channel.send("Currently playing song!")
-            else:
+            else: # if a song is not being played, play a song
                 randomQuestionNum = randrange(len(songList))
                 player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
+                print(songList[randomQuestionNum])
                 vc.play(player, after=lambda e: skip(vc))
                 await message.channel.send("Now Playing.")
-        else:# create StreamPlayer
+        else:# if the bot is not in a voice channel, it joins it and starts playing
             vc = await voice_channel.channel.connect()
             randomQuestionNum = randrange(len(songList))
             player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
+            print(songList[randomQuestionNum])
             vc.play(player, after=lambda e: skip(vc))
             await message.channel.send("Now Playing.")
     else:
         await message.channel.send('Must be in a channel!')
     songs.close()
 
+# skips a song to play a new song
 def skip(vc):
-    with open("musicQuizQuestions.txt") as songs:
+    with open("musicFiles/musicQuizQuestions.txt") as songs:
         songList = songs.read().splitlines()
     randomQuestionNum = randrange(len(songList))
     vc.stop()
     player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
+    print(songList[randomQuestionNum])
     vc.play(player, after=lambda e: skip(vc))
+    songs.close()
 
+# pauses a song
 def pause(vc):
     vc.pause()
 
+# resumes a song
 def resume(vc):
     vc.resume()
 
+# bot leaves the voice channel it is currently in
 async def leave(message):
     if message.guild.voice_client: # If the bot is in a voice channel 
         await message.guild.voice_client.disconnect() # Leave the channel
@@ -73,21 +83,23 @@ async def leave(message):
     else: 
         await message.channel.send("Currently not in a voice channel!")
 
+# plays a YouTube URL
 async def playYoutube(client, message, url):
-    if message.author.voice == None:
+    if message.author.voice == None: # checks if a user is in a voice channel
         await message.channel.send("You need to be in a voice channel to use this command!")
         return
 
     channel = message.author.voice.channel
 
-
     voice_client = discord.utils.get(client.voice_clients, guild=message.guild)
 
+    # checks if the bot is already in a channel
     if voice_client == None:
         voice_client = await channel.connect()
     else:
         await voice_client.move_to(channel)
 
+    # obtains a playable source from a given URL
     with yt_dlp.YoutubeDL(YTDLP_OPTIONS) as ydl:
         info = ydl.extract_info(url, download=False)
         playUrl = info['entries'][0]['webpage_url']
