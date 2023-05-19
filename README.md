@@ -12,7 +12,7 @@ Handler One is a discord bot utilized for entertainment.
 
 ## Things Learned
 * Using Git
-* Hiding variables with .gitignore and .env
+* Hiding variables, files, and folders with .gitignore and .env
 * Working with external files in Python
 * Utilizing discord.py API
 * Hosting a discord bot on the cloud
