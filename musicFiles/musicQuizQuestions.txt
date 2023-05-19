@@ -47,3 +47,8 @@ musicFiles/file46.mp3
 musicFiles/file47.mp3
 musicFiles/file48.mp3
 musicFiles/file49.mp3
+musicFiles/file50.mp3
+musicFiles/file51.mp3
+musicFiles/file52.mp3
+musicFiles/file53.mp3
+musicFiles/file54.mp3
