@@ -32,6 +32,8 @@ async def play(message):
     global vc
     with open("musicFiles/musicQuizQuestions.txt") as songs:
         songList = songs.read().splitlines()
+    with open("musicFiles/musicQuizAnswers.txt") as answers:
+        answerList = answers.read().splitlines()
     # user channel
     voice_channel=message.author.voice
     # only play music if user is in a voice channel
@@ -42,30 +44,34 @@ async def play(message):
             else: # if a song is not being played, play a song
                 randomQuestionNum = randrange(len(songList))
                 player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
-                print(songList[randomQuestionNum])
+                print(answerList[randomQuestionNum])
                 vc.play(player, after=lambda e: skip(vc))
                 await message.channel.send("Now Playing.")
         else:# if the bot is not in a voice channel, it joins it and starts playing
             vc = await voice_channel.channel.connect()
             randomQuestionNum = randrange(len(songList))
             player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
-            print(songList[randomQuestionNum])
+            print(answerList[randomQuestionNum])
             vc.play(player, after=lambda e: skip(vc))
             await message.channel.send("Now Playing.")
     else:
         await message.channel.send('Must be in a channel!')
     songs.close()
+    answers.close()
 
 # skips a song to play a new song
 def skip(vc):
     with open("musicFiles/musicQuizQuestions.txt") as songs:
         songList = songs.read().splitlines()
+    with open("musicFiles/musicQuizAnswers.txt") as answers:
+        answerList = answers.read().splitlines()
     randomQuestionNum = randrange(len(songList))
     vc.stop()
     player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
-    print(songList[randomQuestionNum])
+    print(answerList[randomQuestionNum])
     vc.play(player, after=lambda e: skip(vc))
     songs.close()
+    answers.close()
 
 # pauses a song
 def pause(vc):

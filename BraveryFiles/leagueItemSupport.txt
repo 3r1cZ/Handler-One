@@ -4,15 +4,18 @@ Imperial Mandate
 Moonstone Renewer
 Evenshroud
 Locket of the Iron Solari
+Radiant Virtue
 
 Legendary:
-Ardent Censor
-Staff of Flowing Water
 Chemtech Putrifier
+Staff of Flowing Water
+Ardent Censor
+Zeke's Convergence
+Knight's Vow
+Imperial Mandate
 Mikael's Blessing
 Redemption
-Knight's Vow
-Zeke's Convergence
-Winter's Approach
-Turbo Chemtank
+Vigilant Wardstone
 Abyssal Mask
+Thornmail
+Force of Nature

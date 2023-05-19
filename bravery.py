@@ -238,18 +238,18 @@ async def bravery(message, client, jungle):
     for item in itemCategories:
       if response.content.lower() == item: # if the response matches an item set
         if item == 'fighter':
-          num1 = randrange(8, 25)
-          num2 = randrange(8, 25)
-          num3 = randrange(8, 25)
-          num4 = randrange(8, 25)
+          num1 = randrange(9, 25)
+          num2 = randrange(9, 25)
+          num3 = randrange(9, 25)
+          num4 = randrange(9, 25)
           while (num2 == num1):
-            num2 = randrange(8, 25)
+            num2 = randrange(9, 25)
           while (num3 == num1 or num3 == num2):
-            num3 = randrange(8, 25)
+            num3 = randrange(9, 25)
           while (num4 == num1 or num4 == num2 or num4 == num3):
-            num4 = randrange(8, 25)
+            num4 = randrange(9, 25)
           await message.channel.send('Order of Items: \n' + '1. ' +
-                                     fighterList[randrange(1, 6)] + '2. ' +
+                                     fighterList[randrange(1, 7)] + '2. ' +
                                      bootList[randrange(len(bootList))] +
                                      '3. ' + fighterList[num1] + '4. ' +
                                      fighterList[num2] + '5. ' +
@@ -257,18 +257,18 @@ async def bravery(message, client, jungle):
                                      fighterList[num4])
           break
         if item == 'marksman':
-          num1 = randrange(7, 25)
-          num2 = randrange(7, 25)
-          num3 = randrange(7, 25)
-          num4 = randrange(7, 25)
+          num1 = randrange(8, 28)
+          num2 = randrange(8, 28)
+          num3 = randrange(8, 28)
+          num4 = randrange(8, 28)
           while (num2 == num1):
-            num2 = randrange(7, 25)
+            num2 = randrange(8, 28)
           while (num3 == num1 or num3 == num2):
-            num3 = randrange(7, 25)
+            num3 = randrange(8, 28)
           while (num4 == num1 or num4 == num2 or num4 == num3):
-            num4 = randrange(7, 25)
+            num4 = randrange(8, 28)
           await message.channel.send('Order of Items: \n' + '1. ' +
-                                     marksmanList[randrange(1, 5)] + '2. ' +
+                                     marksmanList[randrange(1, 6)] + '2. ' +
                                      bootList[randrange(len(bootList))] +
                                      '3. ' + marksmanList[num1] + '4. ' +
                                      marksmanList[num2] + '5. ' +
@@ -331,18 +331,18 @@ async def bravery(message, client, jungle):
                                      '6. ' + tankList[num4])
           break
         if item == 'support':
-          num1 = randrange(8, 18)
-          num2 = randrange(8, 18)
-          num3 = randrange(8, 18)
-          num4 = randrange(8, 18)
+          num1 = randrange(9, 21)
+          num2 = randrange(9, 21)
+          num3 = randrange(9, 21)
+          num4 = randrange(9, 21)
           while (num2 == num1):
-            num2 = randrange(8, 18)
+            num2 = randrange(9, 21)
           while (num3 == num1 or num3 == num2):
-            num3 = randrange(8, 18)
+            num3 = randrange(9, 21)
           while (num4 == num1 or num4 == num2 or num4 == num3):
-            num4 = randrange(8, 18)
+            num4 = randrange(9, 21)
           await message.channel.send('Order of Items: \n' + '1. ' +
-                                     supportList[randrange(1, 6)] + '2. ' +
+                                     supportList[randrange(1, 7)] + '2. ' +
                                      bootList[randrange(len(bootList))] +
                                      '3. ' + supportList[num1] + '4. ' +
                                      supportList[num2] + '5. ' +

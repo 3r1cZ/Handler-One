@@ -1,25 +1,28 @@
 Mythic:
 Eclipse
-Kraken Slayer
-Galeforce
-Immortal Shieldbow
-
-Legendary:
-Rapid Firecannon
 Guinsoo's Rageblade
-Runaan's Hurricane
-Phantom Dancer
-Stormrazor
-Manamune
-Essence Reaver
-Maw of Malmortius
-The Collector
-Mercurial Scimitar
-Lord Dominik's Regards
-Mortal Reminder
-Guardian Angel
-Bloodthirster
-Serylda's Grudge
-Blade of the Ruined King
+Galeforce
 Infinity Edge
 Navori Quickblades
+
+Legendary:
+Runaan's Hurricane
+Phantom Dancer
+Maw of Malmortius
+Manamune
+Essence Reaver
+The Collector
+Kraken Slayer
+Statikk Shiv
+Stormrazor
+Rapid Firecannon
+Immortal Shieldbow
+Mercurial Scimitar
+Mortal Reminder
+Lord Dominik's Regards
+Guardian Angel
+Nashor's Tooth
+Bloodthirster
+Wit's End
+Serylda's Grudge
+Blade of the Ruined King
