@@ -45,25 +45,25 @@ async def play(message, time):
             else: # if a song is not being played, play a song
                 randomQuestionNum = randrange(len(songList))
                 player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
-                print(answerList[randomQuestionNum])
                 vc.play(player, after=lambda e: skip(vc))
                 await message.channel.send("Now Playing.")
                 if time != None:
                     start = default_timer()
                     while default_timer()-start <=int(time):
                         print(default_timer()-start)
+                    print(answerList[randomQuestionNum])
                     vc.pause()
         else:# if the bot is not in a voice channel, it joins it and starts playing
             vc = await voice_channel.channel.connect()
             randomQuestionNum = randrange(len(songList))
             player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
-            print(answerList[randomQuestionNum])
             vc.play(player, after=lambda e: skip(vc))
             await message.channel.send("Now Playing.")
             if time != None:
                 start = default_timer()
                 while default_timer()-start <=int(time):
                     print(default_timer()-start)
+                print(answerList[randomQuestionNum])
                 vc.pause()
     else:
         await message.channel.send('Must be in a channel!')
