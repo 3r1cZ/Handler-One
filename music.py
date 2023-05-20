@@ -47,6 +47,7 @@ async def play(message, time):
                 player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
                 vc.play(player, after=lambda e: skip(vc))
                 await message.channel.send("Now Playing.")
+                # if a specific amount of time is specified, play song for that amount of time
                 if time != None:
                     start = default_timer()
                     while default_timer()-start <=int(time):
@@ -59,12 +60,48 @@ async def play(message, time):
             player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
             vc.play(player, after=lambda e: skip(vc))
             await message.channel.send("Now Playing.")
+            # if a specific amount of time is specified, play song for that amount of time
             if time != None:
                 start = default_timer()
                 while default_timer()-start <=int(time):
                     print(default_timer()-start)
                 print(answerList[randomQuestionNum])
                 vc.pause()
+    else:
+        await message.channel.send('Must be in a channel!')
+    songs.close()
+    answers.close()
+
+# play a given song
+async def playSong(message, song):
+    global vc
+    with open("musicFiles/musicQuizQuestions.txt") as songs:
+        songList = songs.read().splitlines()
+    with open("musicFiles/musicQuizAnswers.txt") as answers:
+        answerList = answers.read().splitlines()
+    # user channel
+    voice_channel=message.author.voice
+    # only play music if user is in a voice channel
+    if voice_channel!= None:
+        if message.guild.voice_client: # if the bot is aready in a voice channel
+            if vc.is_playing(): # if a song is already being played
+                await message.channel.send("Currently playing song!")
+            else: # if a song is not being played, play a song
+                for s in answerList:
+                    if song == s:
+                        player = discord.FFmpegPCMAudio(songList[answerList.index(s)])
+                        vc.play(player)
+                        await message.channel.send("Now Playing.")
+                        break
+        else:# if the bot is not in a voice channel, it joins it and starts playing
+            vc = await voice_channel.channel.connect()
+            for s in answerList:
+                if song == s:
+                    player = discord.FFmpegPCMAudio(songList[answerList.index(s)])
+                    vc.play(player)
+                    await message.channel.send("Now Playing.")
+                    break
+            await message.channel.send("Now Playing.")
     else:
         await message.channel.send('Must be in a channel!')
     songs.close()

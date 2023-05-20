@@ -32,28 +32,52 @@ async def on_message(message):
   if message.author == client.user or message.author.id == 432610292342587392:
     return
 
+  # checking conditions for a response
+  def check(response):
+    return response.channel == message.channel and response.author == message.author
+  
   # sends a text file containing all functions for the user to use
-  if message.content == '*help':
+  if message.content.lower() == '*help':
     help = open('help.txt', 'r')
     await message.channel.send(help.read())
     help.close()
 
   # plays music from an mp3 file in a voice channel
-  if message.content == '*play':
+  if message.content.lower() == '*play':
     await music.play(message, None)
   # plays music from a YouTube URL in a voice channel
-  elif message.content.startswith('*playYoutube'):
+  elif message.content.lower().startswith('*playyoutube'):
     song = message.content[5: len(message.content)]
     await music.playYoutube(client, message, song)
-  elif message.content.startswith('*play'):
+    # plays a specific song from a given list
+  elif message.content.lower() == '*playsong':
+    with open("musicFiles/musicQuizAnswers.txt") as songs:
+        songList = songs.read().splitlines()
+    song2 = open('musicFiles/musicQuizAnswers.txt')
+    await message.channel.send('```' + song2.read() + '```')
+    song2.close()
+    await message.channel.send('Please enter a song from the above list:')
+    try:
+      response = await client.wait_for("message", check=check, timeout=40)
+      inSong = False
+      for song in songList:
+        if response.content.lower() == song:
+          inSong = True
+          await music.playSong(message, song)
+      if inSong == False:
+        await message.channel.send('This is not a valid song!')
+    except asyncio.TimeoutError: # when not answered after 40 seconds
+      await message.channel.send('You failed to answer in time!')
+    songs.close()
+  elif message.content.lower().startswith('*play'):
     num = message.content[6: len(message.content)]
-    if num.isdigit() == False:
+    if num.isdigit() == False or int(num) >90:
       await message.channel.send('Invalid time.')
     else:
       await music.play(message, num)
 
   # skips the current song playing and plays a new song
-  if message.content == ('*skip'):
+  if message.content.lower() == ('*skip'):
     if music.vc is not None and music.vc and message.guild.voice_client:
         music.vc.stop()
         await message.channel.send('Song skipped!')
@@ -61,7 +85,7 @@ async def on_message(message):
       await message.channel.send('Skip failed!')
 
   # pauses the current song
-  if message.content == ('*pause'):
+  if message.content.lower() == ('*pause'):
     if music.vc is not None and music.vc and message.guild.voice_client:
       await message.channel.send('Song paused!')
       music.pause(music.vc)
@@ -69,7 +93,7 @@ async def on_message(message):
       await message.channel.send('Pause failed!')
   
   # resumes the current song
-  if message.content == ('*resume'):
+  if message.content.lower() == ('*resume'):
     if music.vc is not None and music.vc and message.guild.voice_client:
       await message.channel.send('Song resumed!')
       music.resume(music.vc)
@@ -77,16 +101,12 @@ async def on_message(message):
       await message.channel.send('Resume failed!')
 
   # makes the bot leave the voice channel it is currently in
-  if message.content == '*leave':
+  if message.content.lower() == '*leave':
     await music.leave(message)
   global commandInProgress
 
-  # checking conditions for a response
-  def check(response):
-    return response.channel == message.channel
-
   # generates a quiz for a user to guess when prompted by *quiz
-  if message.content.startswith('*quiz'):
+  if message.content.lower().startswith('*quiz'):
     musics = False
     if 'music' in message.content: # checks if the user is asking for a music quiz instead of a normal one
       musics = True
@@ -111,14 +131,14 @@ async def on_message(message):
       await message.channel.send('Command already in progress!')
 
   # generates a random sentence from animes.txt when prompted by *recommend
-  if message.content == '*recommend':
+  if message.content.lower() == '*recommend':
     animes = open("animes.txt", "r")
     animeList = animes.readlines()
     await message.channel.send(animeList[randrange(len(animeList))])
     animes.close()
 
   # ultimate bravery on League of Legends, randomizing most parts
-  if message.content.startswith('*bravery'):
+  if message.content.lower().startswith('*bravery'):
     if commandInProgress == False:
       commandInProgress = True
       if 'jg' in message.content:
@@ -130,14 +150,14 @@ async def on_message(message):
       await message.channel.send('Command already in progress!')
 
   # sends a random agent from Valorant to the text channel
-  if message.content == '*valAgent':
+  if message.content.lower() == '*valagent':
     agents = open("BraveryValorant/valAgents.txt", "r")
     agentList = agents.readlines()
     await message.channel.send(agentList[randrange(len(agentList))])
     agents.close()
 
   # sends a random gun from Valorant to the text channel
-  if message.content.startswith('*valGun'):
+  if message.content.lower().startswith('*valgun'):
     guns = open("BraveryValorant/valGuns.txt", "r")
     gunList = guns.readlines()
     if '1' == message.content[len(message.content) - 1] or '13' in message.content:

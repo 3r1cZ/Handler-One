@@ -12,6 +12,8 @@ The bot will play a random song in a voice channel!
 subcommands:
 - *play [number]
 The bot will play a song for a specified number of seconds. Great for guessing games!
+- *playsong
+The bot will give a list of songs for you to choose from. Choose one and listen!
 - *leave
 The bot will disconnect from the voice channel.
 - *pause
@@ -27,10 +29,10 @@ subcommand:
 - *bravery jg
 Generate a build for jungle (guaranteed smite)
 
-*valAgent
+*valagent
 Generate a random agent to play in Valorant!
 
-*valGun [round number]
+*valgun [round number]
 Generate a random gun to play with in a Valorant round! For the ultimate bravery, run this command every time you die in a game.
 
 *quiz
