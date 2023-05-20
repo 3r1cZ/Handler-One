@@ -53,20 +53,56 @@ async def on_message(message):
   elif message.content.lower() == '*playsong':
     with open("musicFiles/musicQuizAnswers.txt") as songs:
         songList = songs.read().splitlines()
-    song2 = open('musicFiles/musicQuizAnswers.txt')
-    await message.channel.send('```' + song2.read() + '```')
-    song2.close()
-    await message.channel.send('Please enter a song from the above list:')
+    song1 = ''
+    song2 = ''
+    for i in range(59):
+      song1+=('[' + str(i+1) + '] ' + songList[i] + '\n')
+    for i in range(59,len(songList)):
+      song2+=('[' + str(i+1) + '] ' + songList[i] + '\n')
+    contents = [song1, song2]
+    myMessage = await message.channel.send('```' + song1 + '```')
+    await myMessage.add_reaction("\u25c0") # backwards
+    await myMessage.add_reaction("\u25b6") # forwards
+    await myMessage.add_reaction('\U00002705')
+    await myMessage.channel.send('Please click on the checkmark when finished looking at the list:')
+
+
+    # user reaction
+    cur_page = 1
+    def checkTwo(reaction, user):
+        return user == message.author and str(reaction.emoji) in ["\u25c0", "\u25b6", '\U00002705']
+    
+    while True:
+      try:
+          reaction, user = await client.wait_for("reaction_add", check=checkTwo, timeout=60)
+          # waiting for a reaction to be added - times out after 60 seconds
+
+          if str(reaction.emoji) == "\u25b6" and cur_page != len(contents):
+              cur_page += 1
+              await myMessage.edit(content='```' + contents[cur_page-1] + '```')
+              await myMessage.remove_reaction(reaction, user)
+          elif str(reaction.emoji) == "\u25c0" and cur_page > 1:
+              cur_page -= 1
+              await myMessage.edit(content='```' + contents[cur_page-1] + '```')
+              await myMessage.remove_reaction(reaction, user)
+          elif str(reaction.emoji) == '\U00002705':
+            break
+          else:
+              await myMessage.remove_reaction(reaction, user)
+              # removes reactions if the user tries to go forward on the last page or
+              # backwards on the first page
+      except asyncio.TimeoutError:
+        await message.channel.send('Time expired.')
+        break
+    await message.channel.send('Enter a number from a song in the above list:')
+    # user response
     try:
-      response = await client.wait_for("message", check=check, timeout=40)
-      inSong = False
-      for song in songList:
-        if response.content.lower() == song:
-          inSong = True
-          await music.playSong(message, song)
-      if inSong == False:
-        await message.channel.send('This is not a valid song!')
-    except asyncio.TimeoutError: # when not answered after 40 seconds
+      response = await client.wait_for("message", check=check, timeout=60)
+      if response.content.isdigit() and int(response.content) >=1 and int(response.content) <=len(songList):
+        await music.playSong(message, int(response.content)-1)
+      else:
+        await message.channel.send('This is not a valid number!')
+    except asyncio.TimeoutError: # when not answered after 60 seconds
       await message.channel.send('You failed to answer in time!')
     songs.close()
   elif message.content.lower().startswith('*play'):
@@ -106,10 +142,10 @@ async def on_message(message):
   global commandInProgress
 
   # generates a quiz for a user to guess when prompted by *quiz
-  if message.content.lower().startswith('*quiz'):
-    musics = False
-    if 'music' in message.content: # checks if the user is asking for a music quiz instead of a normal one
-      musics = True
+  if message.content.lower() == '*quiz':
+    # musics = False
+    # if 'music' in message.content: # checks if the user is asking for a music quiz instead of a normal one
+    #   musics = True
     if commandInProgress == False:
       commandInProgress = True
       # waits for a response from the user regarding number of points
@@ -120,7 +156,7 @@ async def on_message(message):
         response = await client.wait_for("message", check=check, timeout=20)
         if response.content.isdigit() and int(response.content) != 0:
           quiz.exit = False
-          await quiz.points(message, client, response.content, musics) # run the quiz
+          await quiz.points(message, client, response.content) # run the quiz
         else:
           await message.channel.send('This is not a valid number!')
       except asyncio.TimeoutError: # when not answered after 20 seconds

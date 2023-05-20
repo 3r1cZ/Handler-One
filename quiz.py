@@ -17,7 +17,7 @@ async def reset():
   failsToAnswer = 0
 
 # determines the current points of each user in order to determine how long to run the quiz for
-async def points(message, client, num, music):
+async def points(message, client, num):
   global playerScore
   global exit
   won = False
@@ -31,7 +31,7 @@ async def points(message, client, num, music):
         won = True
         break
     if won == False and exit == False: # sends a quiz if nobody has won or the quiz has not been exited
-      await quiz(message, client, music)
+      await quiz(message, client)
     elif won == True: # if someone has won
       await message.channel.send(f'<@{winner}> is the winner!')
     else:
@@ -40,7 +40,7 @@ async def points(message, client, num, music):
   await reset()
 
 # outputting quizzes for the user
-async def quiz(message, client, music):
+async def quiz(message, client):
   global playerScore
   global exit
   global failsToAnswer
@@ -48,21 +48,21 @@ async def quiz(message, client, music):
   while nextQuestion: # posts a new question
     start = default_timer()
     nextQuestion = False
-    if music: # if music quiz has been requested
-      with open("musicFiles/musicQuizQuestions.txt") as questions:
-        questionList = questions.read().splitlines()
-      with open("musicFiles/musicQuizAnswers.txt") as answers:
-        answerList = answers.read().splitlines()
-      randomQuestionNum = randrange(len(questionList))
-      q = questionList[randomQuestionNum]
-      await message.channel.send(file=discord.File(q))
-    else: # if a regular quiz has been requested
-      questions = open("quizQuestions.txt", encoding="utf8")
-      questionList = questions.readlines()
-      with open("quizAnswers.txt") as answers:
-        answerList = answers.read().splitlines()
-      randomQuestionNum = randrange(len(questionList))
-      await message.channel.send(questionList[randomQuestionNum])
+    # if music: # if music quiz has been requested
+    #   with open("musicFiles/musicQuizQuestions.txt") as questions:
+    #     questionList = questions.read().splitlines()
+    #   with open("musicFiles/musicQuizAnswers.txt") as answers:
+    #     answerList = answers.read().splitlines()
+    #   randomQuestionNum = randrange(len(questionList))
+    #   q = questionList[randomQuestionNum]
+    #   await message.channel.send(file=discord.File(q))
+    # else: # if a regular quiz has been requested
+    questions = open("quizQuestions.txt", encoding="utf8")
+    questionList = questions.readlines()
+    with open("quizAnswers.txt") as answers:
+      answerList = answers.read().splitlines()
+    randomQuestionNum = randrange(len(questionList))
+    await message.channel.send(questionList[randomQuestionNum])
 
     # checking conditions for a response
     def check(response):

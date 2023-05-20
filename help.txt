@@ -42,8 +42,6 @@ subcommands include:
 passes a question. Can only be used after 5 seconds of a question being asked.
 - *exit
 exits the quiz. Can only be used after 5 seconds of a question being asked.
-- *quiz music
-A random mp3 file will be sent to the channel to guess a song.
 *recommend
 Handler One sends a random anime recommendation to the channel.
 ```

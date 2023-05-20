@@ -73,12 +73,10 @@ async def play(message, time):
     answers.close()
 
 # play a given song
-async def playSong(message, song):
+async def playSong(message, index):
     global vc
     with open("musicFiles/musicQuizQuestions.txt") as songs:
         songList = songs.read().splitlines()
-    with open("musicFiles/musicQuizAnswers.txt") as answers:
-        answerList = answers.read().splitlines()
     # user channel
     voice_channel=message.author.voice
     # only play music if user is in a voice channel
@@ -87,25 +85,18 @@ async def playSong(message, song):
             if vc.is_playing(): # if a song is already being played
                 await message.channel.send("Currently playing song!")
             else: # if a song is not being played, play a song
-                for s in answerList:
-                    if song == s:
-                        player = discord.FFmpegPCMAudio(songList[answerList.index(s)])
-                        vc.play(player)
-                        await message.channel.send("Now Playing.")
-                        break
+                player = discord.FFmpegPCMAudio(songList[index])
+                vc.play(player)
+                await message.channel.send("Now Playing.")
+                        
         else:# if the bot is not in a voice channel, it joins it and starts playing
             vc = await voice_channel.channel.connect()
-            for s in answerList:
-                if song == s:
-                    player = discord.FFmpegPCMAudio(songList[answerList.index(s)])
-                    vc.play(player)
-                    await message.channel.send("Now Playing.")
-                    break
+            player = discord.FFmpegPCMAudio(songList[index])
+            vc.play(player)
             await message.channel.send("Now Playing.")
     else:
         await message.channel.send('Must be in a channel!')
     songs.close()
-    answers.close()
 
 # skips a song to play a new song
 def skip(vc):
