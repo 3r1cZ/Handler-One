@@ -2,3 +2,5 @@ discord
 flask
 python-dotenv
 yt-dlp
+pynacl
+ffmpeg
