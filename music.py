@@ -27,6 +27,7 @@ YTDLP_OPTIONS = {
 }
 
 vc = None
+loops = False
 
 # plays a song
 async def play(message, time):
@@ -72,9 +73,26 @@ async def play(message, time):
     songs.close()
     answers.close()
 
+# loop a song
+def loop(vc, index):
+    with open("musicFiles/musicQuizQuestions.txt") as songs:
+        songList = songs.read().splitlines()
+    vc.stop()
+    player = discord.FFmpegPCMAudio(songList[index])
+    vc.play(player, after=lambda e: loop(vc, index))
+    songs.close()
+
+# check for loop
+def checkLoop(index):
+    global loops
+    global vc
+    if loops:
+        loop(vc, index)
+
 # play a given song
 async def playSong(message, index):
     global vc
+    global loops
     with open("musicFiles/musicQuizQuestions.txt") as songs:
         songList = songs.read().splitlines()
     # user channel
@@ -86,13 +104,13 @@ async def playSong(message, index):
                 await message.channel.send("Currently playing song!")
             else: # if a song is not being played, play a song
                 player = discord.FFmpegPCMAudio(songList[index])
-                vc.play(player)
+                vc.play(player, after = lambda e: checkLoop(index))
                 await message.channel.send("Now Playing.")
                         
         else:# if the bot is not in a voice channel, it joins it and starts playing
             vc = await voice_channel.channel.connect()
             player = discord.FFmpegPCMAudio(songList[index])
-            vc.play(player)
+            vc.play(player, after = lambda e: checkLoop(index))
             await message.channel.send("Now Playing.")
     else:
         await message.channel.send('Must be in a channel!')
@@ -122,9 +140,12 @@ def resume(vc):
 
 # bot leaves the voice channel it is currently in
 async def leave(message):
+    global loops
     if message.guild.voice_client: # If the bot is in a voice channel 
         await message.guild.voice_client.disconnect() # Leave the channel
         await message.channel.send('Left the voice channel!')
+        # resetting everything
+        loops = False
     else: 
         await message.channel.send("Currently not in a voice channel!")
 

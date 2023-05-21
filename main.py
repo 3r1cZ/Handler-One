@@ -112,8 +112,15 @@ async def on_message(message):
     else:
       await music.play(message, num)
 
+  if message.content.lower() == '*loop':
+    if message.author.voice != None:
+      music.loops = True
+      await message.add_reaction('\U00002705')
+    else:
+      await message.channel.send('Must be in a voice channel!')
+
   # skips the current song playing and plays a new song
-  if message.content.lower() == ('*skip'):
+  if message.content.lower() == '*skip':
     if music.vc is not None and music.vc and message.guild.voice_client:
         music.vc.stop()
         await message.channel.send('Song skipped!')
