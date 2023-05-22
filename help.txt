@@ -14,6 +14,8 @@ subcommands:
 The bot will play a song for a specified number of seconds. Great for guessing games!
 - *playsong
 The bot will give a list of songs for you to choose from. Choose one and listen!
+- *loop
+The bot will loop a song (only works with *playsong)
 - *leave
 The bot will disconnect from the voice channel.
 - *pause

@@ -152,6 +152,11 @@ green
 greenbelt
 pacific
 newton and leibniz
+iron man
+three
+six
+three
+egyptian
 your name
 jurassic world
 lion king
@@ -170,3 +175,6 @@ captain america
 yuri on ice
 demon slayer
 food wars
+love is war
+bocchi the rock
+death note
