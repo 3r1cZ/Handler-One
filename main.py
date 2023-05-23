@@ -124,8 +124,14 @@ async def on_message(message):
 
       if message.content.lower() == '*loop':
         if message.guild.voice_client: # If the bot is in a voice channel 
-          music.loops = True
-          await message.add_reaction('\U00002705')
+          if music.loops:
+            music.loops = False
+            await message.add_reaction('\U00002705')
+            await message.channel.send('Loop stopped!')
+          else:
+            music.loops = True
+            await message.add_reaction('\U00002705')
+            await message.channel.send('Loop started!')
         else:
           await message.channel.send('Loop Failed!')
       

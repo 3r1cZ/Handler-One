@@ -19,7 +19,7 @@ subcommands:
     The bot will give a list of songs for you to choose from. Choose one and listen!
     subcommand:
         - *loop
-        The bot will loop the previously played song.
+        The bot will loop the previously played song. Type *loop again to stop the current loop.
     - *leave
     The bot will disconnect from the voice channel.
     - *pause
