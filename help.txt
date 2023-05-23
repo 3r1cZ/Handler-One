@@ -10,26 +10,29 @@ Start any message with '**' to ask Handler One any question and it will provide 
 *play
 The bot will play a random song in a voice channel!
 subcommands:
-- *play [number]
-The bot will play a song for a specified number of seconds. Great for guessing games!
-- *playsong
-The bot will give a list of songs for you to choose from. Choose one and listen!
-- *loop
-The bot will loop a song (only works with *playsong)
-- *leave
-The bot will disconnect from the voice channel.
-- *pause
-The bot will pause the current song.
-- *resume
-The bot will resume the current song.
-- *skip
-The bot will skip the song and play a random song next
+    - *play [number]
+    The bot will play a song for a specified number of seconds. Great for guessing games!
+    subcommand:
+        -*repeat [number]
+        Repeats the song for a specified number of seconds.
+    - *playsong
+    The bot will give a list of songs for you to choose from. Choose one and listen!
+    - *loop
+    The bot will loop a song (only works with *playsong)
+    - *leave
+    The bot will disconnect from the voice channel.
+    - *pause
+    The bot will pause the current song.
+    - *resume
+    The bot will resume the current song.
+    - *skip
+    The bot will skip the song and play a random song next
 
 *bravery
 Generate a completely random champion and build to play in League of Legends!
 subcommand:
-- *bravery jg
-Generate a build for jungle (guaranteed smite)
+    - *bravery jg
+    Generate a build for jungle (guaranteed smite)
 
 *valagent
 Generate a random agent to play in Valorant!
@@ -39,11 +42,11 @@ Generate a random gun to play with in a Valorant round! For the ultimate bravery
 
 *quiz
 Handler One sends a random quiz question to the channel for the user to answer.
-subcommands include:
-- *pass
-passes a question. Can only be used after 5 seconds of a question being asked.
-- *exit
-exits the quiz. Can only be used after 5 seconds of a question being asked.
-*recommend
-Handler One sends a random anime recommendation to the channel.
+subcommands:
+    - *pass
+    passes a question. Can only be used after 5 seconds of a question being asked.
+    - *exit
+    exits the quiz. Can only be used after 5 seconds of a question being asked.
+    *recommend
+    Handler One sends a random anime recommendation to the channel.
 ```

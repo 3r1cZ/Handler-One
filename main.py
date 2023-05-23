@@ -29,6 +29,7 @@ async def on_ready():
 @client.event
 async def on_message(message):
   # returns when the author of a message is the bot itself
+  
   if message.author == client.user or message.author.id == 432610292342587392:
     return
 
@@ -118,6 +119,16 @@ async def on_message(message):
       await message.add_reaction('\U00002705')
     else:
       await message.channel.send('Must be in a voice channel!')
+  
+  if message.content.lower().startswith('*repeat'):
+    num = message.content[8: len(message.content)]
+    if num.isdigit() == False or int(num) >90 or music.index == -1 or music.timeGlobal == -1:
+      await message.channel.send('Repeat Failed!')
+    else:
+      music.timeGlobal = num
+      await message.add_reaction('\U00002705')
+      await music.repeat()
+    
 
   # skips the current song playing and plays a new song
   if message.content.lower() == '*skip':
@@ -161,7 +172,7 @@ async def on_message(message):
       )
       try:
         response = await client.wait_for("message", check=check, timeout=20)
-        if response.content.isdigit() and int(response.content) != 0:
+        if response.content.isdigit() and int(response.content) > 0 and int(response.content) <= 100:
           quiz.exit = False
           await quiz.points(message, client, response.content) # run the quiz
         else:

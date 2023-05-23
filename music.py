@@ -29,9 +29,15 @@ YTDLP_OPTIONS = {
 vc = None
 loops = False
 
+# for repeat
+timeGlobal = -1
+index = -1
+
 # plays a song
 async def play(message, time):
     global vc
+    global timeGlobal
+    global index
     with open("musicFiles/musicQuizQuestions.txt") as songs:
         songList = songs.read().splitlines()
     with open("musicFiles/musicQuizAnswers.txt") as answers:
@@ -45,11 +51,13 @@ async def play(message, time):
                 await message.channel.send("Currently playing song!")
             else: # if a song is not being played, play a song
                 randomQuestionNum = randrange(len(songList))
+                index = randomQuestionNum
                 player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
                 vc.play(player, after=lambda e: skip(vc))
                 await message.channel.send("Now Playing.")
                 # if a specific amount of time is specified, play song for that amount of time
                 if time != None:
+                    timeGlobal = time
                     start = default_timer()
                     while default_timer()-start <=int(time):
                         print(default_timer()-start)
@@ -58,11 +66,13 @@ async def play(message, time):
         else:# if the bot is not in a voice channel, it joins it and starts playing
             vc = await voice_channel.channel.connect()
             randomQuestionNum = randrange(len(songList))
+            index = randomQuestionNum
             player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
             vc.play(player, after=lambda e: skip(vc))
             await message.channel.send("Now Playing.")
             # if a specific amount of time is specified, play song for that amount of time
             if time != None:
+                timeGlobal = time
                 start = default_timer()
                 while default_timer()-start <=int(time):
                     print(default_timer()-start)
@@ -72,6 +82,22 @@ async def play(message, time):
         await message.channel.send('Must be in a channel!')
     songs.close()
     answers.close()
+
+async def repeat():
+    global timeGlobal
+    global index
+    with open("musicFiles/musicQuizQuestions.txt") as songs:
+        songList = songs.read().splitlines()
+    with open("musicFiles/musicQuizAnswers.txt") as answers:
+        answerList = answers.read().splitlines()
+    vc.stop()
+    player = discord.FFmpegPCMAudio(songList[index])
+    vc.play(player)
+    start = default_timer()
+    while default_timer()-start <=int(timeGlobal):
+        print(default_timer()-start)
+    print(answerList[index])
+    vc.pause()
 
 # loop a song
 def loop(vc, index):
