@@ -17,8 +17,9 @@ subcommands:
         Repeats the song for a specified number of seconds.
     - *playsong
     The bot will give a list of songs for you to choose from. Choose one and listen!
-    - *loop
-    The bot will loop a song (only works with *playsong)
+    subcommand:
+        - *loop
+        The bot will loop the previously played song.
     - *leave
     The bot will disconnect from the voice channel.
     - *pause
