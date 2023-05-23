@@ -65,3 +65,8 @@ musicFiles/file64.mp3
 musicFiles/file65.mp3
 musicFiles/file66.mp3
 musicFiles/file67.mp3
+musicFiles/file68.mp3
+musicFiles/file69.mp3
+musicFiles/file70.mp3
+musicFiles/file71.mp3
+musicFiles/file72.mp3

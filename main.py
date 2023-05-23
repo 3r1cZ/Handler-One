@@ -43,121 +43,132 @@ async def on_message(message):
     await message.channel.send(help.read())
     help.close()
 
-  # plays music from an mp3 file in a voice channel
-  if message.content.lower() == '*play':
-    await music.play(message, None)
-  # plays music from a YouTube URL in a voice channel
-  elif message.content.lower().startswith('*playyoutube'):
-    song = message.content[5: len(message.content)]
-    await music.playYoutube(client, message, song)
-    # plays a specific song from a given list
-  elif message.content.lower() == '*playsong':
-    with open("musicFiles/musicQuizAnswers.txt") as songs:
-        songList = songs.read().splitlines()
-    song1 = ''
-    song2 = ''
-    for i in range(59):
-      song1+=('[' + str(i+1) + '] ' + songList[i] + '\n')
-    for i in range(59,len(songList)):
-      song2+=('[' + str(i+1) + '] ' + songList[i] + '\n')
-    contents = [song1, song2]
-    myMessage = await message.channel.send('```' + song1 + '```')
-    await myMessage.add_reaction("\u25c0") # backwards
-    await myMessage.add_reaction("\u25b6") # forwards
-    await myMessage.add_reaction('\U00002705')
-    await myMessage.channel.send('Please click on the checkmark when finished looking at the list:')
-
-
-    # user reaction
-    cur_page = 1
-    def checkTwo(reaction, user):
-        return user == message.author and str(reaction.emoji) in ["\u25c0", "\u25b6", '\U00002705']
-    
-    while True:
-      try:
-          reaction, user = await client.wait_for("reaction_add", check=checkTwo, timeout=60)
-          # waiting for a reaction to be added - times out after 60 seconds
-
-          if str(reaction.emoji) == "\u25b6" and cur_page != len(contents):
-              cur_page += 1
-              await myMessage.edit(content='```' + contents[cur_page-1] + '```')
-              await myMessage.remove_reaction(reaction, user)
-          elif str(reaction.emoji) == "\u25c0" and cur_page > 1:
-              cur_page -= 1
-              await myMessage.edit(content='```' + contents[cur_page-1] + '```')
-              await myMessage.remove_reaction(reaction, user)
-          elif str(reaction.emoji) == '\U00002705':
-            break
-          else:
-              await myMessage.remove_reaction(reaction, user)
-              # removes reactions if the user tries to go forward on the last page or
-              # backwards on the first page
-      except asyncio.TimeoutError:
-        await message.channel.send('Time expired.')
+  musicCommands = ['*play', '*playyoutube', '*playsong', '*loop', '*repeat', '*skip', '*pause', '*resume', '*leave']
+  inCommands = False
+  for command in musicCommands:
+      if command in message.content:
+        inCommands = True
         break
-    await message.channel.send('Enter a number from a song in the above list:')
-    # user response
-    try:
-      response = await client.wait_for("message", check=check, timeout=60)
-      if response.content.isdigit() and int(response.content) >=1 and int(response.content) <=len(songList):
-        await music.playSong(message, int(response.content)-1)
-      else:
-        await message.channel.send('This is not a valid number!')
-    except asyncio.TimeoutError: # when not answered after 60 seconds
-      await message.channel.send('You failed to answer in time!')
-    songs.close()
-  elif message.content.lower().startswith('*play'):
-    num = message.content[6: len(message.content)]
-    if num.isdigit() == False or int(num) >90:
-      await message.channel.send('Invalid time.')
-    else:
-      await music.play(message, num)
+  if message.author.voice != None:
+      # plays music from an mp3 file in a voice channel\
+    if inCommands:
+      # plays music from an mp3 file in a voice channel
+      if message.content.lower() == '*play':
+        await music.play(message, None)
+      # plays music from a YouTube URL in a voice channel
+      elif message.content.lower().startswith('*playyoutube'):
+        song = message.content[5: len(message.content)]
+        await music.playYoutube(client, message, song)
+        # plays a specific song from a given list
+      elif message.content.lower() == '*playsong':
+        with open("musicFiles/musicQuizAnswers.txt") as songs:
+            songList = songs.read().splitlines()
+        song1 = ''
+        song2 = ''
+        for i in range(59):
+          song1+=('[' + str(i+1) + '] ' + songList[i] + '\n')
+        for i in range(59,len(songList)):
+          song2+=('[' + str(i+1) + '] ' + songList[i] + '\n')
+        contents = [song1, song2]
+        myMessage = await message.channel.send('```' + song1 + '```')
+        await myMessage.add_reaction("\u25c0") # backwards
+        await myMessage.add_reaction("\u25b6") # forwards
+        await myMessage.add_reaction('\U00002705')
+        await myMessage.channel.send('Please click on the checkmark when finished looking at the list:')
 
-  if message.content.lower() == '*loop':
-    if message.author.voice != None:
-      music.loops = True
-      await message.add_reaction('\U00002705')
-    else:
-      await message.channel.send('Must be in a voice channel!')
-  
-  if message.content.lower().startswith('*repeat'):
-    num = message.content[8: len(message.content)]
-    if num.isdigit() == False or int(num) >90 or music.index == -1 or music.timeGlobal == -1:
-      await message.channel.send('Repeat Failed!')
-    else:
-      music.timeGlobal = num
-      await message.add_reaction('\U00002705')
-      await music.repeat()
-    
 
-  # skips the current song playing and plays a new song
-  if message.content.lower() == '*skip':
-    if music.vc is not None and music.vc and message.guild.voice_client:
-        music.vc.stop()
-        await message.channel.send('Song skipped!')
-    else:
-      await message.channel.send('Skip failed!')
+        # user reaction
+        cur_page = 1
+        def checkTwo(reaction, user):
+            return user == message.author and str(reaction.emoji) in ["\u25c0", "\u25b6", '\U00002705']
+        
+        while True:
+          try:
+              reaction, user = await client.wait_for("reaction_add", check=checkTwo, timeout=60)
+              # waiting for a reaction to be added - times out after 60 seconds
 
-  # pauses the current song
-  if message.content.lower() == ('*pause'):
-    if music.vc is not None and music.vc and message.guild.voice_client:
-      await message.channel.send('Song paused!')
-      music.pause(music.vc)
-    else:
-      await message.channel.send('Pause failed!')
-  
-  # resumes the current song
-  if message.content.lower() == ('*resume'):
-    if music.vc is not None and music.vc and message.guild.voice_client:
-      await message.channel.send('Song resumed!')
-      music.resume(music.vc)
-    else:
-      await message.channel.send('Resume failed!')
+              if str(reaction.emoji) == "\u25b6" and cur_page != len(contents):
+                  cur_page += 1
+                  await myMessage.edit(content='```' + contents[cur_page-1] + '```')
+                  await myMessage.remove_reaction(reaction, user)
+              elif str(reaction.emoji) == "\u25c0" and cur_page > 1:
+                  cur_page -= 1
+                  await myMessage.edit(content='```' + contents[cur_page-1] + '```')
+                  await myMessage.remove_reaction(reaction, user)
+              elif str(reaction.emoji) == '\U00002705':
+                break
+              else:
+                  await myMessage.remove_reaction(reaction, user)
+                  # removes reactions if the user tries to go forward on the last page or
+                  # backwards on the first page
+          except asyncio.TimeoutError:
+            await message.channel.send('Time expired.')
+            break
+        await message.channel.send('Enter a number from a song in the above list:')
+        # user response
+        try:
+          response = await client.wait_for("message", check=check, timeout=60)
+          if response.content.isdigit() and int(response.content) >=1 and int(response.content) <=len(songList):
+            await music.playSong(message, int(response.content)-1)
+          else:
+            await message.channel.send('This is not a valid number!')
+        except asyncio.TimeoutError: # when not answered after 60 seconds
+          await message.channel.send('You failed to answer in time!')
+        songs.close()
+      elif message.content.lower().startswith('*play'):
+        num = message.content[6: len(message.content)]
+        if num.isdigit() == False or int(num) >90:
+          await message.channel.send('Invalid time.')
+        else:
+          await music.play(message, num)
 
-  # makes the bot leave the voice channel it is currently in
-  if message.content.lower() == '*leave':
-    await music.leave(message)
-  global commandInProgress
+      if message.content.lower() == '*loop':
+        if message.guild.voice_client: # If the bot is in a voice channel 
+          music.loops = True
+          await message.add_reaction('\U00002705')
+        else:
+          await message.channel.send('Loop Failed!')
+      
+      if message.content.lower().startswith('*repeat'):
+        num = message.content[8: len(message.content)]
+        if num.isdigit() == False or int(num) >90 or music.index == -1 or music.timeGlobal == -1:
+          await message.channel.send('Repeat Failed!')
+        else:
+          music.timeGlobal = num
+          await message.add_reaction('\U00002705')
+          await music.repeat()
+        
+
+      # skips the current song playing and plays a new song
+      if message.content.lower() == '*skip':
+        if music.vc is not None and music.vc and message.guild.voice_client:
+            music.vc.stop()
+            await message.channel.send('Song skipped!')
+        else:
+          await message.channel.send('Skip failed!')
+
+      # pauses the current song
+      if message.content.lower() == ('*pause'):
+        if music.vc is not None and music.vc and message.guild.voice_client:
+          await message.channel.send('Song paused!')
+          music.pause(music.vc)
+        else:
+          await message.channel.send('Pause failed!')
+      
+      # resumes the current song
+      if message.content.lower() == ('*resume'):
+        if music.vc is not None and music.vc and message.guild.voice_client:
+          await message.channel.send('Song resumed!')
+          music.resume(music.vc)
+        else:
+          await message.channel.send('Resume failed!')
+
+      # makes the bot leave the voice channel it is currently in
+      if message.content.lower() == '*leave':
+        await music.leave(message)
+      global commandInProgress
+  elif inCommands and message.author.voice == None: # not in voice channel but a command is used
+    await message.channel.send('Must be in a voice channel to use this command!')
 
   # generates a quiz for a user to guess when prompted by *quiz
   if message.content.lower() == '*quiz':
