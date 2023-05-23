@@ -11,7 +11,7 @@ Handler One is a discord bot utilized for entertainment.
 * Attempting a completely random build in League of Legends or Valorant using txt files
 
 ## Things Learned
-* Using Git
+* Using Git and installing modules using 'pip install -r requirements.txt'
 * Hiding variables, files, and folders with .gitignore and .env
 * Creating virtual environments with venv
 * Working with external files in Python
