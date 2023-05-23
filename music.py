@@ -52,6 +52,7 @@ async def play(message, time):
             player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
             vc.play(player, after=lambda e: skip(vc))
             await message.channel.send("Now Playing.")
+            print(answerList[randomQuestionNum])
             # if a specific amount of time is specified, play song for that amount of time
             if time != None:
                 timeGlobal = time
@@ -67,6 +68,7 @@ async def play(message, time):
         player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
         vc.play(player, after=lambda e: skip(vc))
         await message.channel.send("Now Playing.")
+        print(answerList[randomQuestionNum])
         # if a specific amount of time is specified, play song for that amount of time
         if time != None:
             timeGlobal = time
@@ -134,15 +136,19 @@ async def playSong(message, index):
 
 # skips a song to play a new song
 def skip(vc):
+    global index
     with open("musicFiles/musicQuizQuestions.txt") as songs:
         songList = songs.read().splitlines()
     with open("musicFiles/musicQuizAnswers.txt") as answers:
         answerList = answers.read().splitlines()
     randomQuestionNum = randrange(len(songList))
+    while randomQuestionNum == index: # ensure song does not repeat
+        randomQuestionNum = randrange(len(songList))
+    index = randomQuestionNum
     vc.stop()
     player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
-    print(answerList[randomQuestionNum])
     vc.play(player, after=lambda e: skip(vc))
+    print(answerList[randomQuestionNum])
     songs.close()
     answers.close()
 

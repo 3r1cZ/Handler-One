@@ -70,3 +70,8 @@ musicFiles/file69.mp3
 musicFiles/file70.mp3
 musicFiles/file71.mp3
 musicFiles/file72.mp3
+musicFiles/file73.mp3
+musicFiles/file74.mp3
+musicFiles/file75.mp3
+musicFiles/file76.mp3
+musicFiles/file77.mp3

@@ -43,6 +43,7 @@ async def on_message(message):
     await message.channel.send(help.read())
     help.close()
 
+  # checks if a user is sending out a music command from a voice channel
   musicCommands = ['*play', '*playyoutube', '*playsong', '*loop', '*repeat', '*skip', '*pause', '*resume', '*leave']
   inCommands = False
   for command in musicCommands:
@@ -50,7 +51,6 @@ async def on_message(message):
         inCommands = True
         break
   if message.author.voice != None:
-      # plays music from an mp3 file in a voice channel\
     if inCommands:
       # plays music from an mp3 file in a voice channel
       if message.content.lower() == '*play':
