@@ -50,11 +50,14 @@ async def play(message, time):
             randomQuestionNum = randrange(len(songList))
             index = randomQuestionNum
             player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
-            vc.play(player, after=lambda e: skip(vc))
-            await message.channel.send("Now Playing.")
-            print(answerList[randomQuestionNum])
+            if time == None:
+                vc.play(player, after=lambda e: skip(vc))
+                await message.channel.send("Now Playing.")
+                print(answerList[randomQuestionNum])
             # if a specific amount of time is specified, play song for that amount of time
             if time != None:
+                vc.play(player)
+                await message.channel.send("Now Playing.")
                 timeGlobal = time
                 start = default_timer()
                 while default_timer()-start <=int(time):
@@ -66,11 +69,14 @@ async def play(message, time):
         randomQuestionNum = randrange(len(songList))
         index = randomQuestionNum
         player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
-        vc.play(player, after=lambda e: skip(vc))
-        await message.channel.send("Now Playing.")
-        print(answerList[randomQuestionNum])
+        if time == None:
+            vc.play(player, after=lambda e: skip(vc))
+            await message.channel.send("Now Playing.")
+            print(answerList[randomQuestionNum])
         # if a specific amount of time is specified, play song for that amount of time
         if time != None:
+            vc.play(player)
+            await message.channel.send("Now Playing.")
             timeGlobal = time
             start = default_timer()
             while default_timer()-start <=int(time):
@@ -83,6 +89,7 @@ async def play(message, time):
 async def repeat():
     global timeGlobal
     global index
+    global vc
     with open("musicFiles/musicQuizQuestions.txt") as songs:
         songList = songs.read().splitlines()
     with open("musicFiles/musicQuizAnswers.txt") as answers:
