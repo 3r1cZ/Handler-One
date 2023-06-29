@@ -18,44 +18,55 @@ intents.message_content = True
 client = discord.Client(intents=intents)
 
 # for songs
-songList = music.answerList
 song1 = ''
 song2 = ''
 for i in range(50):
-  song1+=('[' + str(i+1) + '] ' + songList[i] + '\n')
-for i in range(50,len(songList)):
-  song2+=('[' + str(i+1) + '] ' + songList[i] + '\n')
+  song1+=('[' + str(i+1) + '] ' + music.answerList[i] + '\n')
+for i in range(50,len(music.answerList[i])):
+  song2+=('[' + str(i+1) + '] ' + music.answerList[i] + '\n')
 contents = [song1, song2]
 
 commandInProgress = False
 
 class Select(discord.ui.Select):
-    global songList
     global song1
     global song2
     global contents
     def __init__(self):
         options=[
+            discord.SelectOption(label="No Sort",description="Original listing (by date added)"),
             discord.SelectOption(label="Sort by Anime",description="Sort the list of songs by anime title"),
             discord.SelectOption(label="Sort by Song",description="Sort the list of songs by song title"),
             ]
         super().__init__(placeholder="Select an option",max_values=1,min_values=1,options=options)
     async def callback(self, interaction: discord.Interaction):
-        global songList
         global song1
         global song2
         global contents
-        if self.values[0] == "Sort by Author":
+        if self.values[0] == "No Sort":
+          with open("musicFiles/musicQuizAnswers.txt") as songs:
+            music.answerList = songs.read().splitlines()
+          with open("musicFiles/musicQuizQuestions.txt") as songs:
+            music.questionList = songs.read().splitlines()
+          songs.close()
+          song1 = ''
+          song2 = ''
+          for i in range(50):
+            song1+=('[' + str(i+1) + '] ' + music.answerList[i] + '\n')
+          for i in range(50,len(music.answerList)):
+            song2+=('[' + str(i+1) + '] ' + music.answerList[i] + '\n')
+          contents = [song1, song2]
+          await interaction.response.edit_message(content='```' + song1 + '```')
+        elif self.values[0] == "Sort by Author":
             await interaction.response.edit_message(content="This is the second option from the entire list!")
         elif self.values[0] == "Sort by Song":
-            music.quickSort(songList, 0, len(songList)-1)
-            music.answerList = songList
+            music.quickSort(music.answerList, 0, len(music.answerList)-1)
             song1 = ''
             song2 = ''
             for i in range(50):
-              song1+=('[' + str(i+1) + '] ' + songList[i] + '\n')
-            for i in range(50,len(songList)):
-              song2+=('[' + str(i+1) + '] ' + songList[i] + '\n')
+              song1+=('[' + str(i+1) + '] ' + music.answerList[i] + '\n')
+            for i in range(50,len(music.answerList)):
+              song2+=('[' + str(i+1) + '] ' + music.answerList[i] + '\n')
             contents = [song1, song2]
             await interaction.response.edit_message(content='```' + song1 + '```')
 
@@ -105,8 +116,6 @@ async def on_message(message):
         await music.playYoutube(client, message, song)
         # plays a specific song from a given list
       elif message.content.lower() == '*playsong':
-        #with open("musicFiles/musicQuizAnswers.txt") as songs:
-        #    songList = songs.read().splitlines()
         myMessage = await message.channel.send('```' + song1 + '```', view = SelectView())
         await myMessage.add_reaction("\u25c0") # backwards
         await myMessage.add_reaction("\u25b6") # forwards
@@ -145,7 +154,7 @@ async def on_message(message):
         # user response
         try:
           response = await client.wait_for("message", check=check, timeout=60)
-          if response.content.isdigit() and int(response.content) >=1 and int(response.content) <=len(songList):
+          if response.content.isdigit() and int(response.content) >=1 and int(response.content) <=len(music.answerList):
             await music.playSong(message, int(response.content)-1)
           else:
             await message.channel.send('This is not a valid number!')

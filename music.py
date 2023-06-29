@@ -35,7 +35,7 @@ index = -1
 
 # for song lists
 with open("musicFiles/musicQuizQuestions.txt") as songs:
-    songList = songs.read().splitlines()
+    questionList = songs.read().splitlines()
 songs.close()
 with open("musicFiles/musicQuizAnswers.txt") as answers:
     answerList = answers.read().splitlines()
@@ -46,16 +46,16 @@ async def play(message, time):
     global vc
     global timeGlobal
     global index
-    global songList
+    global questionList
     global answerList
     # user channel
     if message.guild.voice_client: # if the bot is aready in a voice channel
         if vc.is_playing(): # if a song is already being played
             await message.channel.send("Currently playing song!")
         else: # if a song is not being played, play a song
-            randomQuestionNum = randrange(len(songList))
+            randomQuestionNum = randrange(len(questionList))
             index = randomQuestionNum
-            player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
+            player = discord.FFmpegPCMAudio(questionList[randomQuestionNum])
             if time == None:
                 vc.play(player, after=lambda e: skip(vc))
                 await message.channel.send("Now Playing.")
@@ -72,9 +72,9 @@ async def play(message, time):
                 vc.pause()
     else:# if the bot is not in a voice channel, it joins it and starts playing
         vc = await message.author.voice.channel.connect()
-        randomQuestionNum = randrange(len(songList))
+        randomQuestionNum = randrange(len(questionList))
         index = randomQuestionNum
-        player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
+        player = discord.FFmpegPCMAudio(questionList[randomQuestionNum])
         if time == None:
             vc.play(player, after=lambda e: skip(vc))
             await message.channel.send("Now Playing.")
@@ -94,10 +94,10 @@ async def repeat():
     global timeGlobal
     global index
     global vc
-    global songList
+    global questionList
     global answerList
     vc.stop()
-    player = discord.FFmpegPCMAudio(songList[index])
+    player = discord.FFmpegPCMAudio(questionList[index])
     vc.play(player)
     start = default_timer()
     while default_timer()-start <=int(timeGlobal):
@@ -107,9 +107,9 @@ async def repeat():
 
 # loop a song
 def loop(vc, index):
-    global songList
+    global questionList
     vc.stop()
-    player = discord.FFmpegPCMAudio(songList[index])
+    player = discord.FFmpegPCMAudio(questionList[index])
     vc.play(player, after=lambda e: loop(vc, index))
 
 # check for loop
@@ -123,33 +123,33 @@ def checkLoop(index):
 async def playSong(message, index):
     global vc
     global loops
-    global songList
+    global questionList
     # user channel
     if message.guild.voice_client: # if the bot is aready in a voice channel
         if vc.is_playing(): # if a song is already being played
             await message.channel.send("Currently playing song!")
         else: # if a song is not being played, play a song
-            player = discord.FFmpegPCMAudio(songList[index])
+            player = discord.FFmpegPCMAudio(questionList[index])
             vc.play(player, after = lambda e: checkLoop(index))
             await message.channel.send("Now Playing.")
                     
     else:# if the bot is not in a voice channel, it joins it and starts playing
         vc = await message.author.voice.channel.connect()
-        player = discord.FFmpegPCMAudio(songList[index])
+        player = discord.FFmpegPCMAudio(questionList[index])
         vc.play(player, after = lambda e: checkLoop(index))
         await message.channel.send("Now Playing.")
 
 # skips a song to play a new song
 def skip(vc):
     global index
-    global songList
+    global questionList
     global answerList
-    randomQuestionNum = randrange(len(songList))
+    randomQuestionNum = randrange(len(questionList))
     while randomQuestionNum == index: # ensure song does not repeat
-        randomQuestionNum = randrange(len(songList))
+        randomQuestionNum = randrange(len(questionList))
     index = randomQuestionNum
     vc.stop()
-    player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
+    player = discord.FFmpegPCMAudio(questionList[randomQuestionNum])
     vc.play(player, after=lambda e: skip(vc))
     print(answerList[randomQuestionNum])
 
@@ -199,7 +199,7 @@ async def playYoutube(client, message, url):
 
 # Function to find the partition position
 def partition(array, low, high):
-    global songList
+    global questionList
  
     # choose the rightmost element as pivot
     pivot = array[high]
@@ -218,11 +218,11 @@ def partition(array, low, high):
  
             # Swapping element at i with element at j
             (array[i], array[j]) = (array[j], array[i])
-            (songList[i], songList[j]) = (songList[j], songList[i])
+            (questionList[i], questionList[j]) = (questionList[j], questionList[i])
  
     # Swap the pivot element with the greater element specified by i
     (array[i + 1], array[high]) = (array[high], array[i + 1])
-    (songList[i+1], songList[high]) = (songList[high], songList[i+1])
+    (questionList[i+1], questionList[high]) = (questionList[high], questionList[i+1])
  
     # Return the position from where partition is done
     return i + 1
