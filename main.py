@@ -17,8 +17,52 @@ intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
 
+# for songs
+songList = music.answerList
+song1 = ''
+song2 = ''
+for i in range(50):
+  song1+=('[' + str(i+1) + '] ' + songList[i] + '\n')
+for i in range(50,len(songList)):
+  song2+=('[' + str(i+1) + '] ' + songList[i] + '\n')
+contents = [song1, song2]
+
 commandInProgress = False
 
+class Select(discord.ui.Select):
+    global songList
+    global song1
+    global song2
+    global contents
+    def __init__(self):
+        options=[
+            discord.SelectOption(label="Sort by Anime",description="Sort the list of songs by anime title"),
+            discord.SelectOption(label="Sort by Song",description="Sort the list of songs by song title"),
+            ]
+        super().__init__(placeholder="Select an option",max_values=1,min_values=1,options=options)
+    async def callback(self, interaction: discord.Interaction):
+        global songList
+        global song1
+        global song2
+        global contents
+        if self.values[0] == "Sort by Author":
+            await interaction.response.edit_message(content="This is the second option from the entire list!")
+        elif self.values[0] == "Sort by Song":
+            music.quickSort(songList, 0, len(songList)-1)
+            music.answerList = songList
+            song1 = ''
+            song2 = ''
+            for i in range(50):
+              song1+=('[' + str(i+1) + '] ' + songList[i] + '\n')
+            for i in range(50,len(songList)):
+              song2+=('[' + str(i+1) + '] ' + songList[i] + '\n')
+            contents = [song1, song2]
+            await interaction.response.edit_message(content='```' + song1 + '```')
+
+class SelectView(discord.ui.View):
+    def __init__(self, *, timeout = 180):
+        super().__init__(timeout=timeout)
+        self.add_item(Select())
 
 @client.event
 async def on_ready():
@@ -61,16 +105,9 @@ async def on_message(message):
         await music.playYoutube(client, message, song)
         # plays a specific song from a given list
       elif message.content.lower() == '*playsong':
-        with open("musicFiles/musicQuizAnswers.txt") as songs:
-            songList = songs.read().splitlines()
-        song1 = ''
-        song2 = ''
-        for i in range(59):
-          song1+=('[' + str(i+1) + '] ' + songList[i] + '\n')
-        for i in range(59,len(songList)):
-          song2+=('[' + str(i+1) + '] ' + songList[i] + '\n')
-        contents = [song1, song2]
-        myMessage = await message.channel.send('```' + song1 + '```')
+        #with open("musicFiles/musicQuizAnswers.txt") as songs:
+        #    songList = songs.read().splitlines()
+        myMessage = await message.channel.send('```' + song1 + '```', view = SelectView())
         await myMessage.add_reaction("\u25c0") # backwards
         await myMessage.add_reaction("\u25b6") # forwards
         await myMessage.add_reaction('\U00002705')
@@ -114,7 +151,6 @@ async def on_message(message):
             await message.channel.send('This is not a valid number!')
         except asyncio.TimeoutError: # when not answered after 60 seconds
           await message.channel.send('You failed to answer in time!')
-        songs.close()
       elif message.content.lower().startswith('*play'):
         num = message.content[6: len(message.content)]
         if num.isdigit() == False or int(num) >90:

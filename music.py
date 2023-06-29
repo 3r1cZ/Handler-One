@@ -33,15 +33,21 @@ loops = False
 timeGlobal = -1
 index = -1
 
+# for song lists
+with open("musicFiles/musicQuizQuestions.txt") as songs:
+    songList = songs.read().splitlines()
+songs.close()
+with open("musicFiles/musicQuizAnswers.txt") as answers:
+    answerList = answers.read().splitlines()
+answers.close()
+
 # plays a song
 async def play(message, time):
     global vc
     global timeGlobal
     global index
-    with open("musicFiles/musicQuizQuestions.txt") as songs:
-        songList = songs.read().splitlines()
-    with open("musicFiles/musicQuizAnswers.txt") as answers:
-        answerList = answers.read().splitlines()
+    global songList
+    global answerList
     # user channel
     if message.guild.voice_client: # if the bot is aready in a voice channel
         if vc.is_playing(): # if a song is already being played
@@ -83,17 +89,13 @@ async def play(message, time):
                 print(default_timer()-start)
             print(answerList[randomQuestionNum])
             vc.pause()
-    songs.close()
-    answers.close()
 
 async def repeat():
     global timeGlobal
     global index
     global vc
-    with open("musicFiles/musicQuizQuestions.txt") as songs:
-        songList = songs.read().splitlines()
-    with open("musicFiles/musicQuizAnswers.txt") as answers:
-        answerList = answers.read().splitlines()
+    global songList
+    global answerList
     vc.stop()
     player = discord.FFmpegPCMAudio(songList[index])
     vc.play(player)
@@ -105,12 +107,10 @@ async def repeat():
 
 # loop a song
 def loop(vc, index):
-    with open("musicFiles/musicQuizQuestions.txt") as songs:
-        songList = songs.read().splitlines()
+    global songList
     vc.stop()
     player = discord.FFmpegPCMAudio(songList[index])
     vc.play(player, after=lambda e: loop(vc, index))
-    songs.close()
 
 # check for loop
 def checkLoop(index):
@@ -123,8 +123,7 @@ def checkLoop(index):
 async def playSong(message, index):
     global vc
     global loops
-    with open("musicFiles/musicQuizQuestions.txt") as songs:
-        songList = songs.read().splitlines()
+    global songList
     # user channel
     if message.guild.voice_client: # if the bot is aready in a voice channel
         if vc.is_playing(): # if a song is already being played
@@ -139,15 +138,12 @@ async def playSong(message, index):
         player = discord.FFmpegPCMAudio(songList[index])
         vc.play(player, after = lambda e: checkLoop(index))
         await message.channel.send("Now Playing.")
-    songs.close()
 
 # skips a song to play a new song
 def skip(vc):
     global index
-    with open("musicFiles/musicQuizQuestions.txt") as songs:
-        songList = songs.read().splitlines()
-    with open("musicFiles/musicQuizAnswers.txt") as answers:
-        answerList = answers.read().splitlines()
+    global songList
+    global answerList
     randomQuestionNum = randrange(len(songList))
     while randomQuestionNum == index: # ensure song does not repeat
         randomQuestionNum = randrange(len(songList))
@@ -156,8 +152,6 @@ def skip(vc):
     player = discord.FFmpegPCMAudio(songList[randomQuestionNum])
     vc.play(player, after=lambda e: skip(vc))
     print(answerList[randomQuestionNum])
-    songs.close()
-    answers.close()
 
 # pauses a song
 def pause(vc):
@@ -202,3 +196,51 @@ async def playYoutube(client, message, url):
     print(playUrl)
     source = discord.FFmpegPCMAudio(playUrl, **FFMPEG_OPTIONS)
     voice_client.play(source, after=lambda e: print('Song done'))
+
+# Function to find the partition position
+def partition(array, low, high):
+    global songList
+ 
+    # choose the rightmost element as pivot
+    pivot = array[high]
+ 
+    # pointer for greater element
+    i = low - 1
+ 
+    # traverse through all elements
+    # compare each element with pivot
+    for j in range(low, high):
+        if array[j] <= pivot:
+ 
+            # If element smaller than pivot is found
+            # swap it with the greater element pointed by i
+            i = i + 1
+ 
+            # Swapping element at i with element at j
+            (array[i], array[j]) = (array[j], array[i])
+            (songList[i], songList[j]) = (songList[j], songList[i])
+ 
+    # Swap the pivot element with the greater element specified by i
+    (array[i + 1], array[high]) = (array[high], array[i + 1])
+    (songList[i+1], songList[high]) = (songList[high], songList[i+1])
+ 
+    # Return the position from where partition is done
+    return i + 1
+ 
+# function to perform quicksort
+ 
+ 
+def quickSort(array, low, high):
+    if low < high:
+ 
+        # Find pivot element such that
+        # element smaller than pivot are on the left
+        # element greater than pivot are on the right
+        pi = partition(array, low, high)
+ 
+        # Recursive call on the left of pivot
+        quickSort(array, low, pi - 1)
+ 
+        # Recursive call on the right of pivot
+        quickSort(array, pi + 1, high)
+ 
