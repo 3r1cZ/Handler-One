@@ -57,8 +57,8 @@ class Select(discord.ui.Select):
             song2+=('[' + str(i+1) + '] ' + music.answerList[i] + '\n')
           contents = [song1, song2]
           await interaction.response.edit_message(content='```' + song1 + '```')
-        elif self.values[0] == "Sort by Author":
-            await interaction.response.edit_message(content="This is the second option from the entire list!")
+        elif self.values[0] == "Sort by Anime":
+            await interaction.response.edit_message(content="Currently being implemented. Unavailable at the moment.")
         elif self.values[0] == "Sort by Song":
             music.quickSort(music.answerList, 0, len(music.answerList)-1)
             song1 = ''
