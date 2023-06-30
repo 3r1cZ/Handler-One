@@ -39,6 +39,15 @@ with open("musicFiles/musicQuizQuestions.txt") as songs:
 songs.close()
 with open("musicFiles/musicQuizAnswers.txt") as answers:
     answerList = answers.read().splitlines()
+# list of anime titles
+animeList = []
+with open("musicFiles/musicQuizAnswers.txt") as answers:
+    for line in answers:
+        for i in range(len(line)):
+            if line[i] == ' ':
+                if line[i+1] == '-':
+                    title = line[i+3:-1]
+                    animeList.append(title)
 answers.close()
 
 # plays a song
@@ -200,6 +209,8 @@ async def playYoutube(client, message, url):
 # Function to find the partition position
 def partition(array, low, high):
     global questionList
+    global answerList
+    global animeList
  
     # choose the rightmost element as pivot
     pivot = array[high]
@@ -218,10 +229,18 @@ def partition(array, low, high):
  
             # Swapping element at i with element at j
             (array[i], array[j]) = (array[j], array[i])
+            if array != answerList:
+                (answerList[i], answerList[j]) = (answerList[j], answerList[i])
+            if array != animeList:
+                (animeList[i], animeList[j]) = (animeList[j], animeList[i])
             (questionList[i], questionList[j]) = (questionList[j], questionList[i])
  
     # Swap the pivot element with the greater element specified by i
     (array[i + 1], array[high]) = (array[high], array[i + 1])
+    if array != answerList:
+        (answerList[i + 1], answerList[high]) = (answerList[high], answerList[i + 1])
+    if array != animeList:
+        (animeList[i + 1], animeList[high]) = (animeList[high], animeList[i + 1])    
     (questionList[i+1], questionList[high]) = (questionList[high], questionList[i+1])
  
     # Return the position from where partition is done

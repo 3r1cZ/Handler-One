@@ -44,10 +44,20 @@ class Select(discord.ui.Select):
         global song2
         global contents
         if self.values[0] == "No Sort":
+          # reset all three lists
           with open("musicFiles/musicQuizAnswers.txt") as songs:
             music.answerList = songs.read().splitlines()
           with open("musicFiles/musicQuizQuestions.txt") as songs:
             music.questionList = songs.read().splitlines()
+          music.animeList = []
+          with open("musicFiles/musicQuizAnswers.txt") as answers:
+            for line in answers:
+                for i in range(len(line)):
+                    if line[i] == ' ':
+                        if line[i+1] == '-':
+                            title = line[i+3:-1]
+                            music.animeList.append(title)
+          answers.close()
           songs.close()
           song1 = ''
           song2 = ''
@@ -58,7 +68,15 @@ class Select(discord.ui.Select):
           contents = [song1, song2]
           await interaction.response.edit_message(content='```' + song1 + '```')
         elif self.values[0] == "Sort by Anime":
-            await interaction.response.edit_message(content="Currently being implemented. Unavailable at the moment.")
+            music.quickSort(music.animeList, 0, len(music.animeList)-1)
+            song1 = ''
+            song2 = ''
+            for i in range(50):
+              song1+=('[' + str(i+1) + '] ' + music.answerList[i] + '\n')
+            for i in range(50,len(music.answerList)):
+              song2+=('[' + str(i+1) + '] ' + music.answerList[i] + '\n')
+            contents = [song1, song2]
+            await interaction.response.edit_message(content='```' + song1 + '```')
         elif self.values[0] == "Sort by Song":
             music.quickSort(music.answerList, 0, len(music.answerList)-1)
             song1 = ''
