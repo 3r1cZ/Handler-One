@@ -260,7 +260,6 @@ async def on_message(message):
     # if 'music' in message.content: # checks if the user is asking for a music quiz instead of a normal one
     #   musics = True
 
-
     if commandInProgress == False:
       commandInProgress = True
       # waits for a response from the user regarding number of points
@@ -288,11 +287,11 @@ async def on_message(message):
     await message.channel.send(animeList[randrange(len(animeList))])
     animes.close()
 
-  # ultimate bravery on League of Legends, randomizing most parts
+  # ultimate bravery on League of Legends, randomizing builds for champions
   if message.content.lower().startswith('*bravery'):
     if commandInProgress == False:
       commandInProgress = True
-      if 'jg' in message.content:
+      if 'jg' in message.content: # gives guaranteed smite for junglers
         await bravery.bravery(message, client, True)
       else:
         await bravery.bravery(message, client, False)

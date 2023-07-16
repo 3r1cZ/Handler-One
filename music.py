@@ -26,18 +26,18 @@ YTDLP_OPTIONS = {
                 'source_address': '0.0.0.0',
 }
 
-vc = None
-loops = False
+vc = None # voice channel
+loops = False # looping
 
 # for repeat
-timeGlobal = -1
-index = -1
+timeGlobal = -1 # duration of repeat
+index = -1 # song index
 
 # for song lists
-with open("musicFiles/musicQuizQuestions.txt") as songs:
+with open("musicFiles/musicQuizQuestions.txt") as songs: # list of mp3 file names
     questionList = songs.read().splitlines()
 songs.close()
-with open("musicFiles/musicQuizAnswers.txt") as answers:
+with open("musicFiles/musicQuizAnswers.txt") as answers: # list of anime songs + titles
     answerList = answers.read().splitlines()
 # list of anime titles
 animeList = []
@@ -57,7 +57,7 @@ async def play(message, time):
     global index
     global questionList
     global answerList
-    # user channel
+    
     if message.guild.voice_client: # if the bot is aready in a voice channel
         if vc.is_playing(): # if a song is already being played
             await message.channel.send("Currently playing song!")
@@ -80,7 +80,7 @@ async def play(message, time):
                 print(answerList[randomQuestionNum])
                 vc.pause()
     else:# if the bot is not in a voice channel, it joins it and starts playing
-        vc = await message.author.voice.channel.connect()
+        vc = await message.author.voice.channel.connect() # initializes voice channel
         randomQuestionNum = randrange(len(questionList))
         index = randomQuestionNum
         player = discord.FFmpegPCMAudio(questionList[randomQuestionNum])
@@ -99,6 +99,7 @@ async def play(message, time):
             print(answerList[randomQuestionNum])
             vc.pause()
 
+# repeats a song for a specific duration (timeGlobal)
 async def repeat():
     global timeGlobal
     global index
@@ -206,6 +207,8 @@ async def playYoutube(client, message, url):
     source = discord.FFmpegPCMAudio(playUrl, **FFMPEG_OPTIONS)
     voice_client.play(source, after=lambda e: print('Song done'))
 
+## quick sorting
+
 # Function to find the partition position
 def partition(array, low, high):
     global questionList
@@ -247,8 +250,6 @@ def partition(array, low, high):
     return i + 1
  
 # function to perform quicksort
- 
- 
 def quickSort(array, low, high):
     if low < high:
  
