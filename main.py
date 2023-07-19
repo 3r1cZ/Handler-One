@@ -40,7 +40,7 @@ class Select(discord.ui.Select):
             discord.SelectOption(label="Sort by Anime",description="Sort the list of songs by anime title"),
             discord.SelectOption(label="Sort by Song",description="Sort the list of songs by song title"),
             ]
-        super().__init__(placeholder="Select an option",max_values=1,min_values=1,options=options)
+        super().__init__(placeholder="Sorting Options",max_values=1,min_values=1,options=options)
     async def callback(self, interaction: discord.Interaction):
         global song1
         global song2
