@@ -66,6 +66,7 @@ vienna
 madrid
 moscow
 kyiv
+prague
 lemonade
 john cena
 tiktok
@@ -169,6 +170,29 @@ pachinko
 townhouse
 family day
 st. patrick's day
+surfing
+1945
+california
+cretaceous
+stephen harper
+newfoundland and labrador
+rolex
+white house
+paramount pictures
+mole
+alan walker
+euler's number
+oceangate
+butterfly
+italy
+role-playing game
+niagara falls
+justin bieber
+renaissance
+argentina
+pyeongchang
+wumpus
+to kill a mockingbird
 your name
 jurassic world
 lion king
