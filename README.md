@@ -2,6 +2,10 @@
 
 Handler One is a discord bot utilized for entertainment.
 
+## Table of Contents
+* [Features](#features)
+* [Things Learned](#things-learned)
+
 ## Features
 * Playing music in a voice channel using ffmpeg, mp3 files, and txt files
 * Quiz Competitions using dictionaries, timers, and txt files
