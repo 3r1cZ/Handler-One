@@ -20,4 +20,3 @@ Handler One is a discord bot utilized for entertainment.
 * Creating virtual environments with venv
 * Working with external files in Python
 * Utilizing discord.py API
-* Hosting a discord bot on the cloud
