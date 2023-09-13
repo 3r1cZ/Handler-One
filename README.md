@@ -7,10 +7,10 @@ Handler One is a discord bot utilized for entertainment.
 * [Things Learned](#things-learned)
 
 ## Features
-* Playing music in a voice channel using ffmpeg, mp3 files, and txt files
+* Playing music in a voice channel using ffmpeg, mp3 files, and txt files, sorted with the QuickSort algorithm
 * Quiz Competitions using dictionaries, timers, and txt files
 * Answering simple 'yes' or 'no' questions from keywords using Regex
-* AI Chatting (implemented through https://github.com/3r1cZ/Chatbot)
+* AI Chatting (to be implemented through https://github.com/3r1cZ/Chatbot)
 * Anime Recommendations using txt files
 * Attempting a completely random build in League of Legends or Valorant using txt files
 
