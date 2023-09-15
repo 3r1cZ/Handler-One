@@ -45,7 +45,7 @@ class Select(discord.ui.Select):
         global song1
         global song2
         global contents
-        if self.values[0] == "No Sort":
+        if self.values[0] == "No Sort": # default sorting (by date added)
           # reset all three lists
           with open("musicFiles/musicQuizAnswers.txt") as songs:
             music.answerList = songs.read().splitlines()
@@ -106,6 +106,7 @@ async def on_ready():
 @client.event
 async def on_message(message):
   global commandInProgress
+
   # returns when the author of a message is the bot itself
   if message.author == client.user or message.author.id == 432610292342587392:
     return
@@ -153,7 +154,8 @@ async def on_message(message):
         def checkTwo(reaction, user):
             return user == message.author and str(reaction.emoji) in ["\u25c0", "\u25b6", '\U00002705']
         
-        while True:
+        # reaction loop
+        while True: 
           try:
               # waiting for a reaction to be added - times out after 60 seconds
               reaction, user = await client.wait_for("reaction_add", check=checkTwo, timeout=60)
