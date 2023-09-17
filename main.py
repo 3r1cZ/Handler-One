@@ -9,6 +9,7 @@ import quiz
 import bravery
 import music
 import asyncio
+import randomQuoteGenerator
 from dotenv import load_dotenv
 import gpt as g
 
@@ -296,12 +297,9 @@ async def on_message(message):
     except asyncio.TimeoutError: # when not answered after 20 seconds
       await message.channel.send('You failed to answer in time!')
 
-  # generates a random sentence from animes.txt when prompted by *recommend
-  if message.content.lower() == '*recommend':
-    animes = open("animes.txt", "r")
-    animeList = animes.readlines()
-    await message.channel.send(animeList[randrange(len(animeList))])
-    animes.close()
+  # generates a random quote from AnimeQuotes.csv
+  if message.content.lower() == '*quote':
+    await randomQuoteGenerator.randomQuote(message)
 
   # ultimate bravery on League of Legends, randomizing builds for champions
   if message.content.lower().startswith('*bravery'):

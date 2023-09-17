@@ -48,8 +48,9 @@ subcommands:
     passes a question. Can only be used after 5 seconds of a question being asked.
     - *exit
     exits the quiz. Can only be used after 5 seconds of a question being asked.
-*recommend
-Handler One sends a random anime recommendation to the channel.
+    
+*quote
+Handler One sends a random quote from an anime to the channel.
 
 *chat
 Type anything and Handler One will reply back with an AI-generated message based on your input!
