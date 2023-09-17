@@ -11,8 +11,8 @@ Handler One is a discord bot utilized for entertainment.
 * Quiz Competitions using dictionaries, timers, and txt files
 * Answering simple 'yes' or 'no' questions from keywords using Regex
 * AI Chatting (implemented through https://github.com/3r1cZ/Chatbot)
-* Anime Recommendations using txt files
-* Attempting a completely random build in League of Legends or Valorant using txt files
+* Displaying anime quotes using csv files
+* Providing a random build in League of Legends or Valorant using txt files
 
 ## Things Learned
 * Using Git and installing modules using 'pip install -r requirements.txt'
