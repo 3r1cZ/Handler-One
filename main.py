@@ -10,6 +10,9 @@ import bravery
 import music
 import asyncio
 from dotenv import load_dotenv
+import gpt as g
+
+model = g.model # AI model
 
 load_dotenv() # using environment variables
 
@@ -282,6 +285,17 @@ async def on_message(message):
     else:
       await message.channel.send('Command already in progress!')
 
+  # conversation with chatbot from gpt.py at https://github.com/3r1cZ/Chatbot
+  if message.content.lower() == '*chat':
+    await message.channel.send("Hi! I am Handler One, a bot with a slightly broken chat feature right now! Type anything to see what I'll say!")
+    try:
+      response = await client.wait_for("message", timeout=20)
+
+      output = model.output(response.content)
+      await message.channel.send(output)
+    except asyncio.TimeoutError: # when not answered after 20 seconds
+      await message.channel.send('You failed to answer in time!')
+
   # generates a random sentence from animes.txt when prompted by *recommend
   if message.content.lower() == '*recommend':
     animes = open("animes.txt", "r")
@@ -378,7 +392,7 @@ async def on_message(message):
   goats.close()
 
 # discord status display
-status = cycle(['*help', '*quiz', '*bravery', '*play'])
+status = cycle(['*help', '*quiz', '*bravery', '*play', '*chat'])
 
 @tasks.loop(seconds=180)
 async def change_status():
