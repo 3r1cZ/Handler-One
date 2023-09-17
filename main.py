@@ -299,7 +299,8 @@ async def on_message(message):
 
   # generates a random quote from AnimeQuotes.csv
   if message.content.lower() == '*quote':
-    await randomQuoteGenerator.randomQuote(message)
+    toSend = randomQuoteGenerator.randomQuote()
+    await message.channel.send(toSend)
 
   # ultimate bravery on League of Legends, randomizing builds for champions
   if message.content.lower().startswith('*bravery'):

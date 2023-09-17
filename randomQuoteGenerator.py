@@ -9,7 +9,8 @@ quotes = csvFile["Quote"].tolist()
 characters = csvFile["Character"].tolist()
 animes = csvFile["Anime"].tolist()
 
-async def randomQuote(message):
+# returns a random quote from the above dataset
+def randomQuote():
     randomNum = randrange(len(quotes))
     toSend = '"' + quotes[randomNum] + '" - ' + characters[randomNum] + ', ' + animes[randomNum]
-    await message.channel.send(toSend)
+    return toSend
