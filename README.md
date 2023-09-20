@@ -2,7 +2,7 @@
 
 Handler One is a discord bot utilized for entertainment.
 
-## Table of Contents
+## Contents
 * [Features](#features)
 * [Things Learned](#things-learned)
 * [Preview](#preview)
