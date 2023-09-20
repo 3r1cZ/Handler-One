@@ -23,4 +23,28 @@ Handler One is a discord bot utilized for entertainment.
 * Utilizing discord.py API
 
 ## Preview
-<img src='discordBotSep2023.png'>
+### Contents
+* [Help Function](#help-function)
+* [Play Song Function](#play-song-function)
+* [Quiz Function](#quiz-function)
+* [AI Chatting Function](#ai-chatting-function)
+* [Quote Function](#quote-function)
+* [Random Bravery Function](#random-bravery-function)
+
+#### Help Function
+<img src='previewImages/discordBotSep2023.png'>
+
+#### Play Song Function
+<img src='previewImages/examplePlaySong.png'>
+
+#### Quiz Function
+<img src='previewImages/exampleQuiz.png'>
+
+#### AI Chatting Function
+<img src='previewImages/exampleChat.png'>
+
+#### Quote Function
+<img src='previewImages/exampleQuote.png'>
+
+#### Random Bravery Function
+<img src='previewImages/exampleBravery.png'>
