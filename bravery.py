@@ -188,15 +188,15 @@ async def bravery(message, client, jungle):
 
   # CHOOSE ABILITY UPGRADE ORDER
   abilities = ['Q', 'W', 'E']
-  num1 = randrange(3)
-  num2 = randrange(3)
-  num3 = randrange(3)
-  while (num2 == num1):
-    num2 = randrange(3)
-  while (num3 == num1 or num3 == num2):
-    num3 = randrange(3)
+  i = len(abilities)
+  while(i>0):
+    j = randrange(i)
+    temp = abilities[i-1]
+    abilities[i-1] = abilities[j]
+    abilities[j] = temp
+    i-=1
   abilityOrder = 'Ability Upgrade Order: ' + abilities[
-    num1] + ' -> ' + abilities[num2] + ' -> ' + abilities[num3]
+    0] + ' -> ' + abilities[1] + ' -> ' + abilities[2]
 
   # CHOOSE WARD
   vision = [
