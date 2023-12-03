@@ -111,7 +111,7 @@ async def on_ready():
 async def on_message(message):
   global commandInProgress
 
-  # returns when the author of a message is the bot itself
+  # does not run a command when the author of a message is the bot itself
   if message.author == client.user or message.author.id == 432610292342587392:
     return
 
