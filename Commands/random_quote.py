@@ -10,7 +10,10 @@ characters = csvFile["Character"].tolist()
 animes = csvFile["Anime"].tolist()
 
 # returns a random quote from the above dataset
-def randomQuote():
+async def quote(ctx):
     randomNum = randrange(len(quotes))
     toSend = '"' + quotes[randomNum] + '" - ' + characters[randomNum] + ', ' + animes[randomNum]
-    return toSend
+    await ctx.send(toSend)
+
+def setup(bot):
+    bot.command()(quote)
