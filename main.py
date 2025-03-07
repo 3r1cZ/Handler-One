@@ -7,20 +7,20 @@ from dotenv import load_dotenv
 from keep_alive import keep_alive 
 import gpt as g
 
-# Load environment variables
+# get token
 load_dotenv()
 TOKEN = os.getenv('token')
 
-# Define bot settings
+# define bot settings
 intents = discord.Intents.default()
 intents.message_content = True
 
 bot = commands.Bot(command_prefix="*", intents=intents, help_command=None)
 bot.model = g.model
-command_folder = "commands"  # Folder containing command files
+command_folder = "commands" 
 status = cycle(['*help', '*quiz', '*bravery', '*play', '*chat'])
 
-# Function to dynamically load commands
+# dynamically load commands
 async def load_commands():
     command_files = [f for f in os.listdir("commands") if f.endswith(".py")]
     for file in command_files:
@@ -37,11 +37,11 @@ async def on_ready():
     change_status.start()
     print(f'Logged in as {bot.user}')
 
-# Task loop to change status
+# change status
 @tasks.loop(seconds=180)
 async def change_status():
     await bot.change_presence(activity=discord.Game(next(status)))
 
-# Start bot
+# start bot
 keep_alive()
 bot.run(TOKEN)
