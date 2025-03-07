@@ -6,11 +6,13 @@ from timeit import default_timer
 playerScore = dict()  # dictionary containing player scores
 exit = False
 failsToAnswer = 0
+exitPoint = -1
 
-async def predicate(ctx):
+def is_valid_num(ctx):
+    global exitPoint
     try:
-        num = int(ctx.message.content.split()[1])  # Get the first argument
-        return 1 <= num <= 100  # Allow only numbers from 1 to 100
+      exitPoint = int(ctx.message.content.split()[1])
+      return 1 <= exitPoint <= 100  # Allow only numbers from 1 to 100
     except (ValueError, IndexError):
         return False  # Reject invalid values
 
@@ -22,14 +24,18 @@ async def reset():
   failsToAnswer = 0
 
 # determines the current points of each user in order to determine how long to run the quiz for
-async def points(ctx, num: int):
+async def points(ctx):
   global playerScore
   global exit
+  global exitPoint
+  if not is_valid_num(ctx):
+        await ctx.send("Invalid number. Please provide a number between 1 and 100.")
+        return  # Early exit if the number is not valid
   won = False
   winner = ''
   while (won == False):
     for x, y in playerScore.items(): # checks if anyone has won
-      if int(y) != int(num):
+      if int(y) != int(exitPoint):
         continue
       else:
         winner = x
@@ -118,4 +124,4 @@ async def quiz(ctx):
   answers.close()
 
 def setup(bot):
-    bot.command(name="quiz")(points)
+   bot.command(name="quiz")(points)

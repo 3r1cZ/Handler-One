@@ -17,7 +17,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 bot = commands.Bot(command_prefix="*", intents=intents, help_command=None)
-command_folder = "Commands"  # Folder containing command files
+command_folder = "commands"  # Folder containing command files
 model = g.model
 status = cycle(['*help', '*quiz', '*bravery', '*play', '*chat'])
 

@@ -51,50 +51,48 @@ with open("musicFiles/musicQuizAnswers.txt") as answers:
 answers.close()
 
 # plays a song
-async def play(message, time):
+async def play(ctx):
     global vc
     global timeGlobal
     global index
     global questionList
     global answerList
     
-    if message.guild.voice_client: # if the bot is aready in a voice channel
+    if ctx.guild.voice_client: # if the bot is aready in a voice channel
         if vc.is_playing(): # if a song is already being played
-            await message.channel.send("Currently playing song!")
+            await ctx.send("Currently playing song!")
         else: # if a song is not being played, play a song
             randomQuestionNum = randrange(len(questionList))
             index = randomQuestionNum
             player = discord.FFmpegPCMAudio(questionList[randomQuestionNum])
-            if time == None:
+            if timeGlobal == -1:
                 vc.play(player, after=lambda e: skip(vc))
-                await message.channel.send("Now Playing.")
+                await ctx.send("Now Playing.")
                 print(answerList[randomQuestionNum])
             # if a specific amount of time is specified, play song for that amount of time
-            if time != None:
+            if timeGlobal != -1:
                 vc.play(player)
-                await message.channel.send("Now Playing.")
-                timeGlobal = time
+                await ctx.send("Now Playing.")
                 start = default_timer()
-                while default_timer()-start <=int(time):
+                while default_timer()-start <=int(timeGlobal):
                     print(default_timer()-start)
                 print(answerList[randomQuestionNum])
                 vc.pause()
     else:# if the bot is not in a voice channel, it joins it and starts playing
-        vc = await message.author.voice.channel.connect() # initializes voice channel
+        vc = await ctx.author.voice.channel.connect() # initializes voice channel
         randomQuestionNum = randrange(len(questionList))
         index = randomQuestionNum
         player = discord.FFmpegPCMAudio(questionList[randomQuestionNum])
-        if time == None:
+        if timeGlobal == -1:
             vc.play(player, after=lambda e: skip(vc))
-            await message.channel.send("Now Playing.")
+            await ctx.send("Now Playing.")
             print(answerList[randomQuestionNum])
         # if a specific amount of time is specified, play song for that amount of time
-        if time != None:
+        if timeGlobal != -1:
             vc.play(player)
-            await message.channel.send("Now Playing.")
-            timeGlobal = time
+            await ctx.send("Now Playing.")
             start = default_timer()
-            while default_timer()-start <=int(time):
+            while default_timer()-start <=int(timeGlobal):
                 print(default_timer()-start)
             print(answerList[randomQuestionNum])
             vc.pause()
@@ -130,24 +128,24 @@ def checkLoop(index):
         loop(vc, index)
 
 # play a given song
-async def playSong(message, index):
+async def playSong(ctx, index):
     global vc
     global loops
     global questionList
     # user channel
-    if message.guild.voice_client: # if the bot is aready in a voice channel
+    if ctx.guild.voice_client: # if the bot is aready in a voice channel
         if vc.is_playing(): # if a song is already being played
-            await message.channel.send("Currently playing song!")
+            await ctx.send("Currently playing song!")
         else: # if a song is not being played, play a song
             player = discord.FFmpegPCMAudio(questionList[index])
             vc.play(player, after = lambda e: checkLoop(index))
-            await message.channel.send("Now Playing.")
+            await ctx.send("Now Playing.")
                     
     else:# if the bot is not in a voice channel, it joins it and starts playing
-        vc = await message.author.voice.channel.connect()
+        vc = await ctx.author.voice.channel.connect()
         player = discord.FFmpegPCMAudio(questionList[index])
         vc.play(player, after = lambda e: checkLoop(index))
-        await message.channel.send("Now Playing.")
+        await ctx.send("Now Playing.")
 
 # skips a song to play a new song
 def skip(vc):
@@ -172,40 +170,40 @@ def resume(vc):
     vc.resume()
 
 # bot leaves the voice channel it is currently in
-async def leave(message):
+async def leave(ctx):
     global loops
-    if message.guild.voice_client: # If the bot is in a voice channel 
-        await message.guild.voice_client.disconnect() # Leave the channel
-        await message.channel.send('Left the voice channel!')
+    if ctx.guild.voice_client: # If the bot is in a voice channel 
+        await ctx.guild.voice_client.disconnect() # Leave the channel
+        await ctx.send('Left the voice channel!')
         # resetting everything
         loops = False
     else: 
-        await message.channel.send("Currently not in a voice channel!")
+        await ctx.send("Currently not in a voice channel!")
 
 # plays a YouTube URL
-async def playYoutube(client, message, url):
-    if message.author.voice == None: # checks if a user is in a voice channel
-        await message.channel.send("You need to be in a voice channel to use this command!")
-        return
+# async def playYoutube(ctx, url):
+#     if ctx.author.voice == None: # checks if a user is in a voice channel
+#         await ctx.send("You need to be in a voice channel to use this command!")
+#         return
 
-    channel = message.author.voice.channel
+#     channel = ctx.author.voice.channel
 
-    voice_client = discord.utils.get(client.voice_clients, guild=message.guild)
+#     voice_client = discord.utils.get(client.voice_clients, guild=message.guild)
 
-    # checks if the bot is already in a channel
-    if voice_client == None:
-        voice_client = await channel.connect()
-    else:
-        await voice_client.move_to(channel)
+#     # checks if the bot is already in a channel
+#     if voice_client == None:
+#         voice_client = await channel.connect()
+#     else:
+#         await voice_client.move_to(channel)
 
-    # obtains a playable source from a given URL
-    with yt_dlp.YoutubeDL(YTDLP_OPTIONS) as ydl:
-        info = ydl.extract_info(url, download=False)
-        playUrl = info['entries'][0]['webpage_url']
-        # playUrl = info['webpage_url']
-    print(playUrl)
-    source = discord.FFmpegPCMAudio(playUrl, **FFMPEG_OPTIONS)
-    voice_client.play(source, after=lambda e: print('Song done'))
+#     # obtains a playable source from a given URL
+#     with yt_dlp.YoutubeDL(YTDLP_OPTIONS) as ydl:
+#         info = ydl.extract_info(url, download=False)
+#         playUrl = info['entries'][0]['webpage_url']
+#         # playUrl = info['webpage_url']
+#     print(playUrl)
+#     source = discord.FFmpegPCMAudio(playUrl, **FFMPEG_OPTIONS)
+#     voice_client.play(source, after=lambda e: print('Song done'))
 
 ## quick sorting
 
@@ -264,3 +262,5 @@ def quickSort(array, low, high):
         # Recursive call on the right of pivot
         quickSort(array, pi + 1, high)
  
+def setup(bot):
+    bot.command()(play)
