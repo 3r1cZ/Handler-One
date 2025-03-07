@@ -2,11 +2,10 @@ import importlib
 import os
 import discord
 from discord.ext import commands, tasks
-from discord import app_commands
 from itertools import cycle
 from dotenv import load_dotenv
-from keep_alive import keep_alive  # Assuming this keeps the bot alive in a hosting environment
-import gpt as g  # Assuming this is your AI model
+from keep_alive import keep_alive 
+import gpt as g
 
 # Load environment variables
 load_dotenv()
@@ -17,8 +16,8 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 bot = commands.Bot(command_prefix="*", intents=intents, help_command=None)
+bot.model = g.model
 command_folder = "commands"  # Folder containing command files
-model = g.model
 status = cycle(['*help', '*quiz', '*bravery', '*play', '*chat'])
 
 # Function to dynamically load commands
@@ -34,7 +33,7 @@ async def load_commands():
 
 @bot.event
 async def on_ready():
-    await load_commands()  # Load commands
+    await load_commands()  
     change_status.start()
     print(f'Logged in as {bot.user}')
 
